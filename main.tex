@@ -57,7 +57,7 @@ Bedford, MA 01730-1420}
 % FIXME: Remove before submissions!  This is just to keep track of the length as we write.
 \thispagestyle{plain}
 \pagestyle{plain}
-\todo[inline]{Remove page numbering before submission}
+\todo{RCP: Remove page numbering before submission}
 
 \begin{abstract}
 The US government imposes reporting requirements on healthcare providers as health metrics are important for assessing and improving the US healthcare system.  However, proposed health metrics requirements can be unnecessarily burdensome if the preliminary analysis does not consider possible redundancies between the various metrics.  Accordingly, if some subset of the proposed metrics could be demonstrated to contain nearly all the information of  the full set of metrics,
@@ -68,23 +68,23 @@ then the reporting burden could be substantially  lightened with minimum impact.
 {\bf Keywords:} robust principal component analysis, anomaly
 detection, health analytics, dimension reduction
 
-\section{Introduction}
+\section{Introduction test}
 
 \subsection{Background}
-\todo[color=yellow,]{8 Jul 2020:  This section was rewritten by LS.  I think it is in good shape but it would be nice for RP to quickly review it. }
-Government agencies  mandate  metric reporting requirements to help them execute their missions.  In particular,  metrics are required for the evaluation of healthcare systems and initiatives in order to improve healthcare safety, quality and value. However, collecting and managing healthcare quality measures is expensive,  time consuming and prone to inaccuracies. These inaccuracies take two forms: Some inaccuracies are caused by the reality that attempts at precise metrics isn't always met whereas others  are wildly anomalous due to transcription errors, a misunderstanding of the precise requested metric or other business process errors.
+%\todo[color=yellow]{DONE: 8 Jul 2020:  This section was rewritten by LS.  I think it is in good shape but it would be nice for RP to quickly review it. }
+Government agencies  mandate  metric reporting requirements to help them execute their missions.  In particular,  metrics are required for the evaluation of healthcare systems and initiatives in order to improve healthcare safety, quality and value. However, collecting and managing healthcare quality measures is expensive,  time consuming and prone to inaccuracies.  These inaccuracies take two forms.  Some inaccuracies are caused by the reality that attempts at precise metrics are not always met whereas others are wildly anomalous due to transcription errors, a misunderstanding of the precise requested metric or other business process errors.
 
-A  proposed set of health metrics may be unnecessarily too large and onerous because the initial analysis to design them did not properly account for redundancy of information between metrics
+A proposed set of health metrics may be unnecessarily large and onerous because the initial analysis to design the metrics did not properly account for redundancy of information between metrics.
 %\todo[color=yellow,]{8 Jul  find details }Ref AcademyHealthAbstract]. 
-Identifying the redundancy  using standard methods revolving around computing correlations between the proposed metrics is hampered because the inevitable inaccuracies in the data will give a false sense of the correlations and underlying dimensionality of the metrics.   Instead more advanced methods are required to effectively correct for imprecise inaccuracies in the data, identify and remove anomalous reported metrics, and only then examine the resulting correlations and dimensionality structure.
+Identifying such redundancies using standard methods revolving around computing correlations between the proposed metrics is hampered because the inevitable inaccuracies in the data will give a false sense of the correlations and underlying dimensionality of the metrics.   Instead, more advanced methods are required to effectively correct for imprecise inaccuracies in the data, identify and remove anomalous reported metrics, and only then examine the resulting correlations and dimensionality structure.
 
-A promising data driven analytical approach to reduce metric reporting requirements burden without compromising the information which can be gleaned from the data is reported in this paper. This approach is applied to real data of  health metrics obtained from public use files  collected over a period of one year.  However to validate the approach it was also applied  to synthetic  data where ground truth is known and both small errors and anomalous errors were  intentionally inserted.
+A promising data driven analytical approach to reduce metric reporting requirements burden without compromising the information which can be gleaned from the data is reported in this paper. This approach is applied to real data of  health metrics obtained from public use files collected over a period of one year.  However to validate the approach it was also applied to synthetic data where ground truth is known and both small errors and anomalous errors were intentionally inserted.
 
 
 \subsection{Contribution}
-This paper builds on previous Robust Principal Component Analysis (RPCA) research with an approach which is described and demonstrated by example to algorithmically  both remove anomalies and provide a low-rank approximation of the original data.  This low-rank approximation provides a pathway to reducing the reporting requirements with minimal adverse impact.  The details for the algorithms that underlie this work can be found in \cite{paffenroth2018robust,Paffenroth2012}.
+This paper builds on previous Robust Principal Component Analysis (RPCA) research with an approach which is described and demonstrated to algorithmically remove anomalies as well as provide a low-rank approximation of the original data.  This low-rank approximation provides a pathway to reducing the reporting requirements with minimal adverse impact.  The details for the algorithms that underlie this work can be found in \cite{paffenroth2018robust,Paffenroth2012} (and references therein), and here we focus on the application of such algorithms to the particular nuances of healthcare metrics. 
 
-In particular, empirical examples on synthetic data show that combining SRPCA with RPCA pre-processing was the only method tested herein that found all possible anomalies 
+In particular, empirical examples on synthetic data show that combining Sparse Principal Component Analysis (SPCA) with RPCA pre-processing was the only method tested herein that found all possible anomalies 
 %and led to an MSE in reconstructing as low as possible. 
 and correctly determined the minimum metric reporting burden. For example, we considered the case of $100$ training facilities and $100$ testing facilities with $20$ metrics each (but for which only $6$ would have sufficed). We complicated our task by adding $5$ anomalies in both  data sets.  
 
@@ -92,11 +92,11 @@ We detected, with no false alarms, all anomalies which permitted the algorithm t
 
 As shown in Figures \ref{fig:error_PCA_prediction_without_RPCA}, \ref{fig:error_PCA_prediction_with_RPCA_first}, \ref{fig:error_SPCA_prediction_without_RPCA_first}, and \ref{fig:error_SPCA_prediction_without_RPCA_first_selected} competing methods either mis-detect the anomalies, incorrectly predict the non-anomalous entries, or get the required number of required metrics incorrect.
 As shown in Figures \ref{fig:error_SPCA_prediction_with_RPCA_first} and \ref{fig:error_SPCA_prediction_with_RPCA_first_selected} our method can be seen to be the only method that accomplishes all three tasks (anomaly detection, correctly computing the number of required metrics, and reconstructing the complete data set).
-\todo{Mention real data set here.}
-\todo[inline, color = yellow] {What do we do with this reference to newPaper?  RCP DONE!  I used my original RPCA paper and our arxiv.org paper.   If, however, you mean the upcoming that has not even been started yet, I don't think that we can cite it. }
-\todo[inline, color = yellow] { Can this be made punchier: Can it be made quantitative, eg "In particular, empirical examples show it found XX more anomalies, and led to XX better MSE in reconstructing original dataset. RCP DONE (as best I can)! I would need to write some code and redo some runs to get MSE numbers.  Can I do that after we submit to security? LS: FINE WITH ME TO POSTPOINE}
-
-\todo[inline, color = orange]{NEW: Can you easily add something about what made the synthetic problem hard, eg, N anomolous (M percent) which are on average size Y as well as noise of size Z thrown in.  Also, need a sentence about real data: Had a method to verify that it was catching anomalies and also showed that it appeared that we can reduce the metric burden by X with minimal impact.  }
+\todo{RCP: Mention real data set here one real data metrics are done.}
+%\todo[inline, color = yellow] {What do we do with this reference to newPaper?  RCP DONE!  I used my original RPCA paper and our arxiv.org paper.   If, however, you mean the upcoming that has not even been started yet, I don't think that we can cite it. }
+\todo{RCP:  Make punchier and more quantitative, e.g. "In particular, empirical examples show it found XX more anomalies, and led to XX better MSE in reconstructing original dataset. RCP needs to write some code and redo some runs to get MSE numbers}
+\todo{RCP:  Add something about what made the synthetic problem hard, eg, N anomolous (M percent) which are on average size Y as well as noise of size Z thrown in.}
+\todo[color=red]{RCP and LS:  Need to nail down this request "Also, need a sentence about real data: Had a method to verify that it was catching anomalies and also showed that it appeared that we can reduce the metric burden by X with minimal impact."}
 
 
 In this paper we make several contributions, including
@@ -130,7 +130,8 @@ In contrast, data analysis was performed on both synthetic and real world data s
 
 \section{Background}
 \subsection{Traditional PCA} \label{PCA}
-\todo [inline]{a. No anomaly handling: Matt's exhaustive search of greedy algorithm.  7 Jul (LS): Not true that the main concern about PCA is the difficulty to interpret.  We don't like PCA because it reduces the dimension of the data but it doesn't reduce the number of measurements we use.}
+\todo[color=yellow]{LS:  Update code to reflect that it is not true that the main concern about PCA is the difficulty to interpret.  We don't like PCA because it reduces the dimension of the data but it doesn't reduce the number of measurements we use.}
+\todo[color=yellow]{LS:  It would be great to work through this section since it was copied from our arxiv.org paper.  This is a different audience and we want to avoid self-plagarism.}
 Traditional Principal Components Analysis (PCA) works well for dimensionality reduction.  However, it is often seen as difficult to interpret.  The reason for this is that PCA produces a set of results which are a linear combination of features.  This is useful for understanding the rank or underlying dimension, but does not help to select specific measures from a set of attributes. Additionally, and an important note for this research, is that PCA is extremely sensitive to outliers.  One outlier in the data can completely change the results.
 
 In particular, consider a collection of
@@ -150,88 +151,85 @@ the low-dimensional representation $X$ by solving an optimization problem such a
   \text{subject to}\quad & \rho(L) \le k
 \end{align}
 
-\noindent where $\| L-X \|_F^2$ is the sum of the squares of the entries of $L-X$ (often called the Frobenius norm), $L \in \mathbb{R}^{n \times m}$ and $\rho(L)$ is the \emph{rank} of $L$
-(the dimension of the subspace spanned by the rows of $L$).
+\noindent where $\| L-X \|_F^2$ is the sum of the squares of the entries of $L-X$ (often called the Frobenius norm), $L \in \mathbb{R}^{n \times m}$ and $\rho(L)$ is the \emph{rank} of $L$ (the dimension of the subspace spanned by the rows of $L$).
 
 The optimization problem in (\ref{PCAopt}) is often solved by way of the Singular Value
-Decomposition (SVD) \cite{Eckart1936} which can be phrased as
+Decomposition (SVD) \cite{Eckart1936}.  In particular, by the SVD we know that $X=U \Sigma V^T$ where, assuming that $n<m$, we have $U \in \mathbb{R}^{m \times n}$ and $U$ is unitary in that $U^T U = I$; $V \in \mathbb{R}^{n \times n}$ and $V$ is unitary in that $V^T V = I$; and $\Sigma \in \mathbb{R}^{n \times n}$ and $\Sigma$ is diagonal with positive diagonal entries $\sigma_i$ called the \emph{singular values} of $X$.
 
-\todo [inline]{It looks like some text got lost here}
+Further, assuming the singular values are ordered such that $\sigma_i \ge \sigma_{i+1}$
+and, for a given matrix $X$, we denote by $X_{i:j,k:l}$ the principle sub-matrix of $X$ comprised of rows $i$ through $j$ and columns $k$ through $l$, one can write principle component analysis as 
 
-However, even more importantly for the current work, the SVD provides a natural \emph{compression} of the input data by way of
+\begin{align*}
+X 
+& = 
+\begin{bmatrix}
+U_{1:k,1:k} & U_{1:k,k+1:m} \\
+U_{k+1:n,1:k} & U_{k+1:n,k+1:m} \\
+\end{bmatrix}
+\begin{bmatrix}
+\Sigma_{1:k,1:k} & 0 \\
+0 & \Sigma_{k+1:n,k+1:n} \\
+\end{bmatrix}
+\begin{bmatrix}
+V_{1:k,1:k} & V_{1:k,k+1:n} \\
+V_{k+1:n,1:k} & V_{k+1:n,k+1:n} \\
+\end{bmatrix} \\
+\end{align*}
 
+\noindent Now, by assumption, every entry of $\Sigma_{k+1:n,k+1:n}$ is smaller than the smallest
+entry of $\Sigma_{1:k,1:k}$ we approximate $X$ by setting $\Sigma_{k+1:n,k+1:n}=0$
+and get
 
-By the SVD we know that $X=U \Sigma V^T$.  If $X$ is of rank $k$ and $n<m$ we have that 
-$X = X V V^T$, where $V$ only contains $k$ columns.
-% TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD
-% TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD
-% TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD
-% TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD
-% TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD
-% TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD
-% TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD
-% TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD
-% TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD
+\begin{align*}
+& X \approx 
+\begin{bmatrix}
+U_{1:k,1:k} & U_{1:k,k+1:m} \\
+U_{k+1:n,1:k} & U_{k+1:n,k+1:m} \\
+\end{bmatrix}
+\begin{bmatrix}
+\Sigma_{1:k,1:k} & 0 \\
+0 & 0 \\
+\end{bmatrix}
+\begin{bmatrix}
+V_{1:k,1:k} & V_{1:k,k+1:n} \\
+V_{k+1:n,1:k} & V_{k+1:n,k+1:n} \\
+\end{bmatrix} \\
+& = 
+\begin{bmatrix}
+U_{1:k,1:k} & 0 \\
+U_{k+1:n,1:k} & 0 \\
+\end{bmatrix}
+\begin{bmatrix}
+\Sigma_{1:k,1:k} & 0 \\
+0 & 0 \\
+\end{bmatrix}
+\begin{bmatrix}
+V_{1:k,1:k} & V_{1:k,k+1:n} \\
+0 & 0 \\
+\end{bmatrix} \\
+& = 
+\begin{bmatrix}
+U_{1:k,1:k} \\
+U_{k+1:n,1:k} \\
+\end{bmatrix}
+\begin{bmatrix}
+\Sigma_{1:k,1:k}
+\end{bmatrix}
+\begin{bmatrix}
+V_{1:k,1:k} & V_{1:k,k+1:n} \\
+\end{bmatrix} \\
+& = \hat{U} \hat{\Sigma} \hat{V}^T
+\end{align*}
 
-% I AM NOT SURE WE NEED THIS LEVEL OF DETAIL BUT HERE IT IS FROM THE Jupyter NOTEBOOK.
-% \begin{align}
-% X 
-% & = 
-% \begin{bmatrix}
-% U_{1:k,1:k} & U_{1:k,k+1:m} \\
-% U_{k+1:n,1:k} & U_{k+1:n,k+1:m} \\
-% \end{bmatrix}
-% \begin{bmatrix}
-% \Sigma_{1:k,1:k} & 0 \\
-% 0 & \Sigma_{k+1:n,k+1:n} \\
-% \end{bmatrix}
-% \begin{bmatrix}
-% V_{1:k,1:k} & V_{1:k,k+1:n} \\
-% V_{k+1:n,1:k} & V_{k+1:n,k+1:n} \\
-% \end{bmatrix} \\
-% & = 
-% \begin{bmatrix}
-% U_{1:k,1:k} & U_{1:k,k+1:m} \\
-% U_{k+1:n,1:k} & U_{k+1:n,k+1:m} \\
-% \end{bmatrix}
-% \begin{bmatrix}
-% \Sigma_{1:k,1:k} & 0 \\
-% 0 & 0 \\
-% \end{bmatrix}
-% \begin{bmatrix}
-% V_{1:k,1:k} & V_{1:k,k+1:n} \\
-% V_{k+1:n,1:k} & V_{k+1:n,k+1:n} \\
-% \end{bmatrix} \\
-% & = 
-% \begin{bmatrix}
-% U_{1:k,1:k} & 0 \\
-% U_{k+1:n,1:k} & 0 \\
-% \end{bmatrix}
-% \begin{bmatrix}
-% \Sigma_{1:k,1:k} & 0 \\
-% 0 & 0 \\
-% \end{bmatrix}
-% \begin{bmatrix}
-% V_{1:k,1:k} & V_{1:k,k+1:n} \\
-% 0 & 0 \\
-% \end{bmatrix} \\
-% & = 
-% \begin{bmatrix}
-% U_{1:k,1:k} \\
-% U_{k+1:n,1:k} \\
-% \end{bmatrix}
-% \begin{bmatrix}
-% \Sigma_{1:k,1:k}
-% \end{bmatrix}
-% \begin{bmatrix}
-% V_{1:k,1:k} & V_{1:k,k+1:n} \\
-% \end{bmatrix} \\
-% & = \hat{U} \hat{\Sigma} \hat{V}^T
-% \end{align}
+We observe that if $X$ is exactly of rank $k$ then equality in the above equation holds (since $\Sigma_{k+1:n,k+1:n}=0$ is already true).  Similarly, we also have that $\hat{U} \hat{\Sigma} \hat{V}^T$ is the optimal low-rank approximation of $X$.  So, $X$ can we compressed to $k$ predictors by computing $X \begin{bmatrix} V_{1:k,1:k} & V_{1:k,k+1:n} \\ \end{bmatrix}^T$ and reconstructed by using $(X \begin{bmatrix} V_{1:k,1:k} & V_{1:k,k+1:n} \\ \end{bmatrix}^T) \begin{bmatrix} V_{1:k,1:k} & V_{1:k,k+1:n} \\ \end{bmatrix}$
+
+\todo{RCP:  Maybe wrong level of detail above.  Check later.}
 
 Unfortunately, in the current context, PCA has two important deficiencies.  First, while PCA effectively compresses the input measurements, each of the $k$ principal components in general depends on all of the $n$ original measurements.   As we are interested in not having to measure all $n$, but rather a subset, we note that if $X$ is of exactly rank $k$ the any $k$ columns of $X$ can be used to reconstruct the other $n-k$ columns of $X$.
+\todo{RCP:  Maybe more detail here.  Check later.}
 %TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD.  
 Second, the data sets that we wish to analyze likely have outliers that are not actually part of the true representation of the data.  Unfortuantely, the squared error in (\ref{PCAopt}) tends to introduce large inaccuaries in the SVD of $X$ if $X$ contains anomalies.
+\todo{RCP:  Maybe more detail here.  Check later.}
 %TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD.  
 Accordingly, we require a version of PCA what is robust to these types of measurement anomalies.   Fortunately, Robust Principal Component Analysis (RPCA) \cite{Candes2009,
  Candes2011, Chandrasekaran2009, Cai2010, Paffenroth2012a,Paffenroth2013b} provides precisely the type of approach that we require.   
@@ -309,7 +307,7 @@ The Convex Optimization approach is based on Robust Principal Component Analysis
                                    |X-(L+S)| = 0
 \end{align}
 
-\todo [inline]{Needs to be rewritten since it is copied from the arxiv paper}.
+\todo[color=yellow]{LS:  Needs to be rewritten since it is copied from the arxiv paper}
 % FIXME Copied from arxiv paper
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \noindent where $\rho(L)$ is the rank of $L$, $\|S\|_{0}$ is the
@@ -368,7 +366,7 @@ and $S$ from $Y$ (assuming the constraints mentioned previously).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Approximation methods are used as implemented in the dimredu python package and available as open source here
-\todo[inline]{What about the results from Melanie et al.?}
+\todo[color=red]{RCP and LS:  We need to discuss... RCP is not sure what this means "What about the results from Melanie et al.?"}
 \footnote{The Python libraries and Jupyter notebook for generating the results in this paper can be found on bitbucker.org at ANONYMOUS.}
 
 % \subsubsection{Robust PCA Combinatorial Approach}
@@ -391,14 +389,14 @@ Creation of synthetic data relies upon the following variables :
 
 Based upon the above variable definitions, a synthetic data matrix $X$ is then created using the following steps
 \begin{enumerate}
-\item Initially, two matrices $U \in \mathbb{R}^{m \times k}$ and $V \in \mathbb{R}^{k \times n}$ are constructed and a low-rank matrix $L$ is constructed by setting $L = UV$.
-\todo[inline, color = yellow] { Are U and V unitary?  If so, we shoudl state this}
+\item Initially, two matrices $A \in \mathbb{R}^{m \times k}$ and $B \in \mathbb{R}^{k \times n}$ are constructed and a low-rank matrix $L$ is constructed by setting $L = AB$.
+%\todo{DONE: LS: Are U and V unitary?  If so, we shoudl state this.  RCP: No, and I have updated the notation to make this more clear.}
 \item An anomaly matrix $S$ of the same size as $L$ is constructed.  Each of the entries of $S$ is $0$ except for $numAnoms$ entries, selected uniformly at random, which are set to $sizeAnoms$.
 \item A noise matrix $N$ of the same size as $L$ is constructed. Each of the entries of $N$ is set to a random draw from a Gaussian distribution with mean $0$ and standard deviation $noiseSize$.
 \end{enumerate}
 \noindent Our final synthetic $X$ matrix is then constructed as $X=L+S+N$.  In particular, this model is faithful to our health data since it is a combination of low-rank ambient data and sparse anomalies, as we expect in real-world hospital data.
+\todo{RPC: Needs more here. Check later.}
 % TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD.TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD.TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD.
-\todo[inline]{Needs more here.}
 
 % \subsubsection{Add Noise}
 % Some of our experiments were performed on clean synthetic data as a base, while other experiments included the addition of noise. Our method for adding noise to the data was as follows. SciPy's numpy random package was used to draw random samples from a Gaussian distribution mean centered at zero with a standard deviation equal to 0.1 times the standard deviation of the clean matrix $X$ described in previous sections. The line of python code to accomplish this task is as follows.\\\\
@@ -422,44 +420,47 @@ The health data set that we chose to analyze was provided by the Centers for Med
     \caption{Boxplot of all features}
     \label{fig:boxall}
 \end{figure}
-\todo [ inline, color = yellow] {It seems that we don't use the subcategory of metrics in fig 2-4.  Maybe that part of the paper should be summarized and some or all of these figures deleted to make room for more explaination of analysis}
-The quality measures can be divided into distinct sub-categories. Boxplots created for each of these categories may reveal differences in the data distributions for each category of features. The GPRO features in particular appear to have greater variability and larger outliers as shown in \ref{fig:boxgpro}.
+%\todo{RCP: DONE. Maybe that part of the paper should be summarized and some or all of these figures deleted.}
+\todo[color=yellow]{LS:  Add more explaination of analysis of these predictors.  This is the part where we get to call this a healthcare paper.}
+
+The quality measures can be divided into distinct sub-categories. 
+%Boxplots created for each of these categories may reveal differences in the data distributions for each category of features. The GPRO features in particular appear to have greater variability and larger outliers as shown in \ref{fig:boxgpro}.
 
 \begin{enumerate}
 \item GPRO - Group Practice Reporting Option Features (16 measures) : GPRO features are collected by a web interface which was designed specifically to capture ACO-reported clinical quality data.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics{BoxPlots_GPRO.jpg}
-    \caption{Boxplot of GPRO features}
-    \label{fig:boxgpro}
-\end{figure}
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics{BoxPlots_GPRO.jpg}
+%     \caption{Boxplot of GPRO features}
+%     \label{fig:boxgpro}
+% \end{figure}
 
 
 \item CAHPS - Consumer Assessment of Healthcare Providers Features (10 measures) : CAHPS features, as shown in \ref{fig:boxcahps}, are collected by a survey administered by a CMS-approved vendor selected and paid for by individual ACOs.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics{BoxPlots_CAHPS.jpg}
-    \caption{Boxplot of CAHPS features}
-    \label{fig:boxcahps}
-\end{figure}
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics{BoxPlots_CAHPS.jpg}
+%     \caption{Boxplot of CAHPS features}
+%     \label{fig:boxcahps}
+% \end{figure}
 
 \item EHR - Electronic Health Record Features (8 measures) : EHR features, as shown in Figure \ref{fig:boxehr}, are calculated by the CMS ACO PAC based on CMS claims and administrative data extracted from the National Level Repository. 
 \end{enumerate}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics{BoxPlots_EHR.jpg}
-    \caption{Boxplot of EHR features}
-    \label{fig:boxehr}
-\end{figure}
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics{BoxPlots_EHR.jpg}
+%     \caption{Boxplot of EHR features}
+%     \label{fig:boxehr}
+% \end{figure}
 
 
 
 \section{Experimental procedure}
 In our experiments we follow the following test protocol to compare the following four competing methods
-\todo [inline, color = yellow] { It would be nice to have more detail here: This is the big idea of the approach}
+\todo{RCP: Add more detail here: This is the big idea of the approach}
 \begin{itemize}
     \item Using PCA to make predictions from linear combinations of the original predictors as in Section~\ref{PCA}.
     \item Using SPCA to make predictions from a subset of the original predictors as in Section~\ref{SPCA}.
@@ -475,7 +476,7 @@ Each of these procedures are detailed in the following section.
 
 %TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD.TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD.TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD.
 
-\todo[inline]{Perhaps these can be combined to make things shorter if we need space.}
+\todo{RCP: Perhaps these can be combined to make things shorter if we need space.}
 
 In detail, the algorithm for our approach is the following when we use PCA by itself.  
 %TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD.TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD
@@ -503,14 +504,14 @@ In detail, the algorithm for our approach is the following when we use SPCA by i
 \State Select $k$ columns of $X_{train}$ to get $X_k = X_{train} S_{sel}$
 \State Perform PCA to get $U \Sigma V^T = SVD(X_k)$
 \State Solve for $Z$ using $X_k (S_{sel}^T - S_{sel}^T V V^T) = Z ((I-S_{sel} S_{sel}^T)V V^T - (I-S_{sel} S_{sel}^T))$.
-\State Project $X_test$ as $L_{test} = X_test S_{sel} S_{sel}^T + Z (I-S_{sel} S_{sel}^T)$.
+\State Project $X_{test}$ as $L_{test} = X_test S_{sel} S_{sel}^T + Z (I-S_{sel} S_{sel}^T)$.
 \State Anomalies are $S_{test} = X_{test} - L_{test}$
 \State \textbf{return} $L_{test}$, $S_{test}$
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
 
-\todo [inline, color = yellow] {I am not following what projectx-test is}
+\todo{RCP:  Make clear what projectx-test is.  Can use new notation in Traditional PCA section.}
 In detail, the algorithm for our approach is the following when we use PCA by after RPCA preprocessing. 
 % TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD.TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD
 
@@ -562,9 +563,25 @@ In detail, the algorithm for our approach is the following when we use SPCA by a
 
 \section{Results}
 The following results demonstrate a comparison of traditional methods and Robust Principal Components Analysis performed on synthetic data with noise and varying amounts and sizes of anomalies added.  The plots reveal that RPCA is able to detect the true rank of the data (which was created to be of rank-6), while PCA has trouble detecting the rank as it is thrown off by the noise and outliers.  Additional evidence is provided in the confusion matrix plots which show a significantly better False Positive rate using the RPCA method.
-\todo [ inline, color=yellow]{ Should state why it is useful that we are getting the true rank. btw, is this causing the confusion matrix to be better or is it also true that the confusion matrix is better}
+\todo{RCP: Should state why it is useful that we are getting the true rank. btw, is this causing the confusion matrix to be better or is it also true that the confusion matrix is better}
 In this paper we present several different types of results. 
-\todo [ inline, color=yellow]{Is there a table which could be constructed which summarizing Fig 5-8?}
+\todo{RCP:  Create able to summarize Fig 5-8.  Template below.}
+
+\begin{table}[h!]
+    \begin{center}
+      \caption{MSE error of reconstructions.}
+      \label{tab:table1}
+      \begin{tabular}{l|c|c} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+        \textbf{Reconstruction type} & \begin{minipage}{1in}\textbf{MSE with no anomaly in testing}\end{minipage} & \begin{minipage}{1in}\textbf{MSE with anomaly in testing}\end{minipage}\\
+        \hline
+        PCA & 1.0 & 2.0\\
+        SPCA & 0.1 & 2.0 \\
+        PCA with RPCA & 1.0 &  1.5 \\
+        SPCA with RPCA & 1e-6 & 1.0 \\
+      \end{tabular}
+    \end{center}
+\end{table}
+
 In Figures~\ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_0.001000}, \ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_1.000000}, \ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_50.000000},
 \ref{fig:m_200_n_20_k_6_numAnoms_50_sizeAnoms_0.010000}, and
 \ref{fig:m_200_n_20_k_6_numAnoms_200_sizeAnoms_0.100000} we show the performance of the RPCA algorithm across a variety of scenarios. Figure \ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_0.001000} show RPCA running in the presence of very small anomalies.   In this parameter range RPCA has difficulty detecting the anomalies since they are three orders of magnitude smaller than the ambient low-rank background. 
@@ -586,7 +603,7 @@ Figures \ref{fig:m_200_n_20_k_6_numAnoms_50_sizeAnoms_0.010000} and \ref{fig:m_2
     \label{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_0.001000}
 \end{figure}
 
-\todo[inline, color=yellow]{ The labels for fig 5-8 should all be different.  Are they all needed: SHoudl we only included the hardest case it does well on and the simpliest one it doesn't poorly on?  Also, the blue and orange curves need legends.  Also, do we need all the blue and orange curves: they look so similar to me: Could we display one and state that the others are similar?}
+\todo{RCP: The labels for fig 5-8 should all be different.  Are they all needed: SHoudl we only included the hardest case it does well on and the simpliest one it doesn't poorly on?  Also, the blue and orange curves are incorrect (code error) and need legends.}
 
 \begin{figure}
     \begin{subfigure}{.45\textwidth}
@@ -646,7 +663,7 @@ The key results of our work can be found in Figures \ref{fig:error_PCA_predictio
 Figure \ref{fig:error_PCA_prediction_without_RPCA} shows a purely PCA based prediction.  Besides requiring all of the original predictors to compute, the anomalies in the training and testing data cause many errors in reconstruction.  
 Figure \ref{fig:error_PCA_prediction_with_RPCA_first} shows a purely SPCA based prediction.  Again, the anomalies in the testing data cause many errors in the reconstruction.
 Figures \ref{fig:error_SPCA_prediction_without_RPCA_first} and \ref{fig:error_SPCA_prediction_without_RPCA_first_selected} show a PCA prediction after an RPCA preprocessing.  While superior to the pure PCA reconstruction, anomalies in the testing data still cause substantial errors. 
-\todo[color=yellow] {It seems that FIg 14 and 15 are the big achievement: Some in a quantitative form this should be summarized in the intro}
+\todo[color=yellow]{LS: It seems that FIg 14 and 15 are the big achievement: Some in a quantitative form this should be summarized in the intro}
 Figures \ref{fig:error_SPCA_prediction_with_RPCA_first} and \ref{fig:error_SPCA_prediction_with_RPCA_first_selected} show an SPCA prediction after an RPCA preprocessing.  In this case both the low-rank background and the anomalies are exactly recovered, up to the error arising in the RPCA optimization.
 
 \begin{figure}
@@ -677,7 +694,7 @@ Figures \ref{fig:error_SPCA_prediction_with_RPCA_first} and \ref{fig:error_SPCA_
     \label{fig:error_SPCA_prediction_without_RPCA_first_selected}
 \end{figure}
 
-\todo[inline]{Undo this after submission to security.  It is just about getting things on the same page}
+
 % \begin{figure*}
 % \begin{subfigure}{.45\textwidth}
 %     \centering
@@ -727,10 +744,9 @@ Figure \ref{fig:real_data} shows the results of our methodologies running on rea
     \label{fig:real_data}
 \end{figure*}
 
-\todo [inline, color = yellow]{
-What do we learn from fig 16 in terms of recommended policy?
+\todo[color=yellow]{LS:  What do we learn from fig 16 in terms of recommended policy?
 We should summarize that we can recover placed anomalies in the real data in the intro. Also, summarize recommendation.}
-\todo [ inline, color = yellow] {I think we need another graphic to support the claim that we believe using our analysis that we only need X metrics and that the impact of that will be Y}
+\todo{RCP:  I think we need another graphic to support the claim that we believe using our analysis that we only need X metrics and that the impact of that will be Y.  For example a singular value plot for the real data.  However, I am not sure this is very clear.}
 
 
 % \begin{figure}[H]
@@ -899,11 +915,11 @@ We should summarize that we can recover placed anomalies in the real data in the
 % \end{minipage}
 % \end{figure}
 
-\todo[inline]{Add MSE plots of outliers against error plot data csv files}
-\todo[inline]{Add results for Deon's combinatorial approach}
-\todo[inline]{Add approach for real data}
-\todo[inline]{Do Paffenroth insertions: add anomalies and show that we found them}
-\todo[inline]{Add results for real data: What does PCA/RPCA/Gurobi find}
+% \todo[inline]{Add MSE plots of outliers against error plot data csv files}
+% \todo[inline]{Add results for Deon's combinatorial approach}
+\todo{RCP: Add approach for real data}
+% \todo[inline]{Do Paffenroth insertions: add anomalies and show that we found them}
+% \todo[inline]{Add results for real data: What does PCA/RPCA/Gurobi find}
 
 \section{Conclusions}
 
@@ -912,10 +928,8 @@ This work presents a new research path to explore how modern optimization method
 In particular, empirical examples on synthetic data show our approach was the only method tested herein that found all possible anomalies with no false alarms and perfectly computed the required reduced number of metrics needed without appreciable loss of information. 
 
  
-\todo[inline, color = yellow]{ Fix formatting: Figure 16 is after the Acknowledgment. After the better part of an hour looking around I am not sure how to best fix this...}
 
-
-\todo [ inline, color = orange]  {Conclusions: I think we should be more assertive: We developed empirical evidence that using new modern optimization methods can be effective at complementing }
+\todo[color=yellow]{LS: Conclusions: I think we should be more assertive: We developed empirical evidence that using new modern optimization methods can be effective at complementing }
 
 \section{Acknowledgment}
 The authors wish to thank Dr. Allen Leavens, (MITRE) for introducing us to the challenges of health reporting burdens as well as the introducing us to the Center for Medicare and Medicaid Services (CMS)'s public use dataset related to the Shared Saving Program Accountable Care Organization (ACO).  
@@ -924,7 +938,7 @@ The authors wish to thank Dr. Allen Leavens, (MITRE) for introducing us to the c
 
 
 
-\todo[inline, color = yellow]{ Ask Melanie to proof complete document}
+\todo[color=yellow]{LS:  Ask Melanie to proof complete document}
 
 \bibliographystyle{IEEEtran}
 \bibliography{ICMLA}
