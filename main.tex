@@ -6,7 +6,7 @@
 % \usepackage{authblk}
 \usepackage{float}
 \usepackage{graphicx}
-\usepackage[enable,colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+\usepackage[disable,colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
 \usepackage{soul}
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
@@ -32,7 +32,7 @@
 % My title isn't perfect but I think it is closer.  Let';s get it even better
 %\title{Minimizing the Burden of Measuring Healthcare Data with Robust PCA}
 
-\author{\IEEEauthorblockN{Randy Paffenroth}
+\author{\IEEEauthorblockN{Randy Paffenroth test}
 \IEEEauthorblockA{Mathematical Sciences, Computer Science, and Data Science\\
 Worcester Polytechnic Institute\\
 100 Institute Rd, \\
@@ -386,7 +386,7 @@ Creation of synthetic data relies upon the following variables :
 Based upon the above variable definitions, a synthetic data matrix $X$ is then created using the following steps
 \begin{enumerate}
 \item Initially, two matrices $U \in \mathbb{R}^{m \times k}$ and $V \in \mathbb{R}^{k \times n}$ are constructed and a low-rank matrix $L$ is constructed by setting $L = UV$.
-\todo[inline, color = yellow} { Are U and V unitary?  If so, we shoudl state this}
+\todo[inline, color = yellow] { Are U and V unitary?  If so, we shoudl state this}
 \item An anomaly matrix $S$ of the same size as $L$ is constructed.  Each of the entries of $S$ is $0$ except for $numAnoms$ entries, selected uniformly at random, which are set to $sizeAnoms$.
 \item A noise matrix $N$ of the same size as $L$ is constructed. Each of the entries of $N$ is set to a random draw from a Gaussian distribution with mean $0$ and standard deviation $noiseSize$.
 \end{enumerate}
@@ -478,7 +478,7 @@ In detail, the algorithm for our approach is the following when we use PCA by it
 \caption{PCA prediction}\label{alg:pca prediction}
 \begin{algorithmic}[1]
 \Procedure{PCA prediction}{$X_{train}, X_{test}$}
-\State Perform PCA to get $U \Sigma \V^T = SVD(X_{train})$
+\State Perform PCA to get $U \Sigma V^T = SVD(X_{train})$
 \State Project $X_{test}$ as $L_{test} = X_{test} V V^T$
 \State Anomalies are $S_{test} = X_{test} - L_{test}$
 \State \textbf{return} $L_{test}$, $S_{test}$
@@ -495,8 +495,8 @@ In detail, the algorithm for our approach is the following when we use SPCA by i
 \Procedure{SPCA prediction}{$X_{train}, X_{test}$}
 \State Make a selection matrix $S_{sel}$
 \State Select $k$ columns of $X_{train}$ to get $X_k = X_{train} S_{sel}$
-\State Perform PCA to get $U \Sigma \V^T = SVD(X_k)$
-\State Solve for $Z$ using $X_k (S_{sel}^T - S_{sel}^T V V^T) = Z ((I-S_{sel} S_{sel}^T)V V^T - (I-S_{sel} S_{sel}^T))$$.
+\State Perform PCA to get $U \Sigma V^T = SVD(X_k)$
+\State Solve for $Z$ using $X_k (S_{sel}^T - S_{sel}^T V V^T) = Z ((I-S_{sel} S_{sel}^T)V V^T - (I-S_{sel} S_{sel}^T))$.
 \State Project $X_test$ as $L_{test} = X_test S_{sel} S_{sel}^T + Z (I-S_{sel} S_{sel}^T)$.
 \State Anomalies are $S_{test} = X_{test} - L_{test}$
 \State \textbf{return} $L_{test}$, $S_{test}$
@@ -513,7 +513,7 @@ In detail, the algorithm for our approach is the following when we use PCA by af
 \begin{algorithmic}[1]
 \Procedure{PCA prediction}{$X_{train}, X_{test}$}
 \State Perform RPCA to get $L_{train}, S_{train} = RPCA(X_{train}$
-\State Perform PCA to get $U \Sigma \V^T = SVD(L_{train})$
+\State Perform PCA to get $U \Sigma V^T = SVD(L_{train})$
 \State Project $X_{test}$ as $L_{test} = X_{test} V V^T$
 \State Anomalies are $S_{test} = X_{test} - L_{test}$
 \State \textbf{return} $L_{test}$, $S_{test}$
@@ -531,8 +531,8 @@ In detail, the algorithm for our approach is the following when we use SPCA by a
 \State Perform RPCA to get $L_{train}, S_{train} = RPCA(X_{train}$
 \State Make a selection matrix $S_{sel}$
 \State Select $k$ columns of $L_{train}$ to get $L_k = L_{train} S_{sel}$
-\State Perform PCA to get $U \Sigma \V^T = SVD(L_k)$
-\State Solve for $Z$ using $L_k (S_{sel}^T - S_{sel}^T V V^T) = Z ((I-S_{sel} S_{sel}^T)V V^T - (I-S_{sel} S_{sel}^T))$$.
+\State Perform PCA to get $U \Sigma V^T = SVD(L_k)$
+\State Solve for $Z$ using $L_k (S_{sel}^T - S_{sel}^T V V^T) = Z ((I-S_{sel} S_{sel}^T)V V^T - (I-S_{sel} S_{sel}^T))$.
 \State Project $X_test$ as $L_{test} = X_test S_{sel} S_{sel}^T + Z (I-S_{sel} S_{sel}^T)$.
 \State Anomalies are $S_{test} = X_{test} - L_{test}$
 \State \textbf{return} $L_{test}$, $S_{test}$
