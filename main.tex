@@ -6,7 +6,7 @@
 % \usepackage{authblk}
 \usepackage{float}
 \usepackage{graphicx}
-\usepackage[disable,colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
 \usepackage{soul}
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
@@ -28,22 +28,28 @@
 
 \begin{document}
 
-\title{ Reducing Reporting Burden of Healthcare Data Using Robust Principal Component Analysis (RPCA)}
+\title{Reducing Reporting Burden of Healthcare Data Using Robust Principal Component Analysis (RPCA)}
 % My title isn't perfect but I think it is closer.  Let';s get it even better
 %\title{Minimizing the Burden of Measuring Healthcare Data with Robust PCA}
 
-\author{\IEEEauthorblockN{Randy Paffenroth test}
-\IEEEauthorblockA{Mathematical Sciences, Computer Science, and Data Science\\
+\author{\IEEEauthorblockN{Les Servi}
+\IEEEauthorblockA{The MITRE Corporation\\
+202 Burlington Road \\ 
+Bedford, MA 01730-1420 \\
+Email: lservi@mitre.org}
+\and
+\IEEEauthorblockN{Randy Paffenroth test}
+\IEEEauthorblockA{Mathematical Sciences, Computer Science, \\
+and Data Science\\
 Worcester Polytechnic Institute\\
 100 Institute Rd, \\
 Worcester, MA 01609 \\
 Email: rcpaffenroth@wpi.edu}
 \and
-\IEEEauthorblockN{Les Servi, Melanie Jutras,  Deon Burchett }
+\IEEEauthorblockN{Melanie Jutras,  Deon Burchett}
 \IEEEauthorblockA{The MITRE Corporation\\
 202 Burlington Road \\ 
-Bedford, MA 01730-1420 \\
-Email: lservi@mitre.org}
+Bedford, MA 01730-1420} 
 }
 
 \maketitle
@@ -66,7 +72,7 @@ detection, health analytics, dimension reduction
 
 \subsection{Background}
 \todo[color=yellow,]{8 Jul 2020:  This section was rewritten by LS.  I think it is in good shape but it would be nice for RP to quickly review it. }
-Government agencies  mandate  metric reporting requirements to help them execute their mission.  In particular,  metrics are required for the evaluation of healthcare systems and initiatives in order to improve healthcare safety, quality and value. However, collecting and managing healthcare quality measures is expensive,  time consuming and prone to inaccuracies. These inaccuracies take two forms: Some inaccuracies are caused by the reality that attempts at precise metrics isn't always met whereas others  are wildly anomalous due to transcription errors, a misunderstanding of the precise requested metric or other business process errors.
+Government agencies  mandate  metric reporting requirements to help them execute their missions.  In particular,  metrics are required for the evaluation of healthcare systems and initiatives in order to improve healthcare safety, quality and value. However, collecting and managing healthcare quality measures is expensive,  time consuming and prone to inaccuracies. These inaccuracies take two forms: Some inaccuracies are caused by the reality that attempts at precise metrics isn't always met whereas others  are wildly anomalous due to transcription errors, a misunderstanding of the precise requested metric or other business process errors.
 
 A  proposed set of health metrics may be unnecessarily too large and onerous because the initial analysis to design them did not properly account for redundancy of information between metrics
 %\todo[color=yellow,]{8 Jul  find details }Ref AcademyHealthAbstract]. 
@@ -579,7 +585,9 @@ Figures \ref{fig:m_200_n_20_k_6_numAnoms_50_sizeAnoms_0.010000} and \ref{fig:m_2
     \caption{An easy example of RPCA with $10$ anomalies, each of size $50$.}
     \label{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_0.001000}
 \end{figure}
-\todo [inline, color=yellow]{ The labels for fig 5-8 should all be different.  Are they all needed: SHoudl we only included the hardest case it does well on and the simpliest one it doesn't poorly on?  Also, the blue and orange curves need legends.  Also, do we need all the blue and orange curves: they look so similar to me: Could we display one and state that the others are similar?}
+
+\todo[inline, color=yellow]{ The labels for fig 5-8 should all be different.  Are they all needed: SHoudl we only included the hardest case it does well on and the simpliest one it doesn't poorly on?  Also, the blue and orange curves need legends.  Also, do we need all the blue and orange curves: they look so similar to me: Could we display one and state that the others are similar?}
+
 \begin{figure}
     \begin{subfigure}{.45\textwidth}
     \centering
@@ -638,9 +646,7 @@ The key results of our work can be found in Figures \ref{fig:error_PCA_predictio
 Figure \ref{fig:error_PCA_prediction_without_RPCA} shows a purely PCA based prediction.  Besides requiring all of the original predictors to compute, the anomalies in the training and testing data cause many errors in reconstruction.  
 Figure \ref{fig:error_PCA_prediction_with_RPCA_first} shows a purely SPCA based prediction.  Again, the anomalies in the testing data cause many errors in the reconstruction.
 Figures \ref{fig:error_SPCA_prediction_without_RPCA_first} and \ref{fig:error_SPCA_prediction_without_RPCA_first_selected} show a PCA prediction after an RPCA preprocessing.  While superior to the pure PCA reconstruction, anomalies in the testing data still cause substantial errors. 
-\todo [ inline, color = yellow] {It seems that FIg 14 and 15 are the big achievement: Some in a quantitative form this shoudl be summarized in the intro
-
-In answer to your question: NO, don't need to do much of this to start the security check. The only MUST do would be to make the intro summary of results more definitive and clearer. '}
+\todo[color=yellow] {It seems that FIg 14 and 15 are the big achievement: Some in a quantitative form this should be summarized in the intro}
 Figures \ref{fig:error_SPCA_prediction_with_RPCA_first} and \ref{fig:error_SPCA_prediction_with_RPCA_first_selected} show an SPCA prediction after an RPCA preprocessing.  In this case both the low-rank background and the anomalies are exactly recovered, up to the error arising in the RPCA optimization.
 
 \begin{figure}
