@@ -60,14 +60,12 @@ Bedford, MA 01730-1420}
 \todo{RCP: Remove page numbering before submission}
 
 \begin{abstract}
-\todo [ color = red]{LS: MITRE ask:The entire background section has no citations. Usually there
-is a citation that corraborates your claims that there is an
-actual problem. }
-%\todo [ color = red]{LS notes: https://www.healthit.gov/sites/default/files/page/2018-11/Draft%20Strategy%20on%20Reducing%20Regulatory%20and%20Administrative%20Burden%20Relating.pdf looks useful as does %https://blog.ncqa.org/measurement-burden-heres-what-we-told-onc/} 
+%\todo [ color = red]{LS: MITRE ask:The entire background section has no citations. Usually there is a citation that corraborates your claims that there is an actual problem. }
+%\todo [ color = red]{LS notes:  looks useful as does %https://blog.ncqa.org/meahttps://www.healthit.gov/sites/default/files/page/2018-11/Draft%20Strategy%20on%20Reducing%20Regulatory%20and%20Administrative%20Burden%20Relating.pdfsurement-burden-heres-what-we-told-onc/} 
 
 %\todo [color = red]{LS: MITRE ask: Are you saying that you can’t reduce the reporting burden until after the data is already reported, when you can do the analysis of correlations? Theoretically this will reduce the burden %the following}
 
-The US government imposes reporting requirements on healthcare providers as health metrics are important for assessing and improving the US healthcare system.  However, proposed health metrics requirements can be unnecessarily burdensome if the preliminary analysis does not consider possible redundancies between the various metrics.  Accordingly, if some subset of the proposed metrics could be demonstrated to contain nearly all the information of  the full set of metrics,
+The US government imposes reporting requirements on healthcare providers as health metrics are important for assessing and improving the US healthcare system .  However, proposed health metrics requirements can be unnecessarily burdensome if the preliminary analysis does not consider possible redundancies between the various metrics.  Accordingly, if some subset of the proposed metrics could be demonstrated to contain nearly all the information of  the full set of metrics,
 % (e.g.,  having the subset permits one  to accurately predict the values of the metrics outside the subset)
 then the reporting burden could be substantially  lightened with minimum impact.  However, such an analysis is complicated by anomalies in the collected metrics.  Accordingly, we propose a machine learning approach which simultaneously identifies redundancies in collected healthcare metrics and identifies anomalies in those collected metrics.
 \end{abstract}
@@ -79,9 +77,9 @@ detection, health analytics, dimension reduction
 
 \subsection{Background}
 %\todo[color=orange]{DONE: 8 Jul 2020:  This section was rewritten by LS.  I think it is in good shape but it would be nice for RP to quickly review it. }
-Government agencies  mandate  metric reporting requirements to help them execute their missions.  In particular,  metrics are required for the evaluation of healthcare systems and initiatives in order to improve healthcare safety, quality and value. However, collecting and managing healthcare quality measures is expensive,  time consuming and prone to inaccuracies.  These inaccuracies take two forms.  Some inaccuracies are caused by the reality that attempts at precise metrics are not always met whereas others are wildly anomalous due to transcription errors, a misunderstanding of the precise requested metric or other business process errors.
+Government agencies  mandate  metric reporting requirements to help them execute their missions.  In particular,  metrics are required for the evaluation of healthcare systems and initiatives in order to improve healthcare safety, quality and value. However, collecting and managing healthcare quality measures is expensive,  time consuming and prone to inaccuracies \cite{rao2017impact, cutler2012reducing}.  These inaccuracies take two forms.  Some inaccuracies are caused by the reality that attempts at precise metrics are not always met whereas others are wildly anomalous due to transcription errors, a misunderstanding of the precise requested metric or other business process errors.
 
-An existing set of health metrics may be unnecessarily large and onerous because the initial analysis to design the metrics did not properly account for redundancy of information between metrics.
+An existing set of health metrics may be unnecessarily large and onerous because the initial analysis to design the metrics did not properly account for redundancy of information between metrics \cite{lesidea1, vostok2013assessment}.
 %\todo[color=yellow,]{8 Jul  find details }Ref AcademyHealthAbstract].LS thinks we should DROP this} 
 Identifying such redundancies using standard methods revolving around computing correlations between the proposed metrics is hampered because the inevitable inaccuracies in the data will give a false sense of the correlations and underlying dimensionality of the metrics.   Instead, more advanced methods are required to effectively correct for imprecise inaccuracies in the data, identify and remove anomalous reported metrics, and only then examine the resulting correlations and dimensionality structure.
 
@@ -96,7 +94,7 @@ In particular, empirical examples on synthetic data show that combining Sparse P
 %and led to an MSE in reconstructing as low as possible. 
 and correctly determined the minimum metric reporting burden. For example, we considered the case of $100$ training facilities and $100$ testing facilities with $20$ metrics each (but for which only $6$ would have sufficed). We complicated our task by adding $5$ anomalies in both  data sets.  
 \todo [color = orange] {RP: Should we add to the table the number of anomalies found as well as the number of false detections for each methods?}
-As shown in Table \ref{tab:table1} our SPCA with RPCA approach detected all anomalies (and hence have an insignificant MSE) and discovered that the burden of measuring could have been reduced from $20$ metrics to only $6$ as the MSE values indicated that there would be insignificant loss of the ability to reconstruct the original true metric values.
+As shown in Tables \ref{tab:table1} and \ref{tab:table2} our SPCA with RPCA approach detected all anomalies (and hence have an insignificant MSE) and discovered that the burden of measuring could have been reduced from $20$ metrics to only $6$ as the MSE values indicated that there would be insignificant loss of the ability to reconstruct the original true metric values.
 %, with no false alarms, all anomalies which permitted the algorithm to discover that the burden of measuring could have been reduced from $20$ metrics to only $6$ without \emph{any} appreciable loss of information.  
 \todo [color = red]{LS: MITRE ask: Clearly this is for a very specialized audience, because those figures don’t
 make a whole lot of sense to me. As such, the point you are trying to make
@@ -275,8 +273,8 @@ So, in general we write
 
 $$X_K = X S$$
 
-for selecting $k$ columns from $X$.
-\todo [ color=red]{ LS: MITRE Ask: "column" Those look like rows to me}
+\noindent which, as we computing a dot product of $S$ on the right, selects $k$ columns from $X$.
+%\todo [ color=red]{ LS: MITRE Ask: "column" Those look like rows to me}
 If were to estimate $X$ from $X_K$ we would need two properties.
 
 First, our estimate $\hat{X}$ of $X$ should have the property that it agrees with $X$ on $S$, in other words there is some $Z$ such that
@@ -583,7 +581,7 @@ In detail, the algorithm for our approach is the following when we use SPCA by a
 
 \section{Results}
 \todo [ color = orange] {RP: LS asks: Does the rank estimate refer to the case of no anomalies or the case of anomalies?}
-\todo [ color = red]{ RP: MITRE ask: He doesn't like the "??"in the table. LS changed to na.  RP: OK?}
+%\todo [ color = red]{ RP: MITRE ask: He doesn't like the "??"in the table. LS changed to na.  RP: OK?}
 The following results demonstrate a comparison of traditional methods and Robust Principal Components Analysis performed on synthetic data with noise and varying amounts and sizes of anomalies added.  The plots reveal that RPCA is able to detect the true rank of the data (which was created to be of rank-6), while PCA has trouble detecting the rank as it is thrown off by the noise and outliers.  Additional evidence is provided in the confusion matrix plots which show a significantly better False Positive rate using the RPCA method.
 \todo{RCP: Should state why it is useful that we are getting the true rank. btw, is this causing the confusion matrix to be better or is it also true that the confusion matrix is better}
 In this paper we present several different types of results. 
@@ -591,38 +589,54 @@ In this paper we present several different types of results.
 
 \begin{table}[h!]
     \begin{center}
-      \caption{MSE error of reconstructions.}
+      \caption{RMSE error of reconstructions.}
       \label{tab:table1}
       \begin{tabular}{l|c|c|c} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
-        \textbf{Reconstruction type} & Rank & \begin{minipage}{1in}\textbf{MSE with no anomaly in testing}\end{minipage} & \begin{minipage}{1in}\textbf{MSE with anomaly in testing}\end{minipage}\\
+        \textbf{Reconstruction type} & Rank & \begin{minipage}{1in}\textbf{RMSE with no anomaly in testing}\end{minipage} & \begin{minipage}{1in}\textbf{RMSE with anomaly in testing}\end{minipage}\\
         \hline
-        PCA & 14 & 1.0 & 2.0\\
-        SPCA & n.a. & 0.1 & 2.0 \\
-        PCA with RPCA & 6 & 1.0 &  1.5 \\
-        SPCA with RPCA & 6 & 1e-6 & 1.0 \\
+        PCA & 9 & 4.3e-1 & 1.3e0\\
+        SPCA & N/A & 2.3e0 & 4.7e0 \\
+        PCA with RPCA & 6 & \textcolor{red}{5.3e-4} & 1.8e0  \\
+        SPCA with RPCA & 6 & \textcolor{red}{2.7e-3} & 6.3e0 \\
       \end{tabular}
     \end{center}
 \end{table}
 
+\begin{table}[h!]
+    \begin{center}
+      \caption{F1-score for anomaly detection.}
+      \label{tab:table2}
+      \begin{tabular}{l|c} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+        \textbf{Reconstruction type} & \begin{minipage}{1in}\textbf{F1-score for anomaly detection}\end{minipage}\\
+        \hline
+        PCA &  0.23 \\
+        SPCA &  0.51 \\
+        PCA with RPCA &  0.97 \\
+        SPCA with RPCA &  0.99 \\
+      \end{tabular}
+    \end{center}
+\end{table}
+
+
 In Figures~\ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_0.001000}, \ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_1.000000}, \ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_50.000000},
 \ref{fig:m_200_n_20_k_6_numAnoms_50_sizeAnoms_0.010000}, and
-\ref{fig:m_200_n_20_k_6_numAnoms_200_sizeAnoms_0.100000} we show the performance of the RPCA algorithm across a variety of scenarios. 
+\ref{fig:difficult RPCA} we show the performance of the RPCA algorithm across a variety of scenarios. 
 \todo{RCP:  Be sure to talk about the $\lambda$ values that are chosen for each figure.}
 Figure \ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_0.001000} show RPCA running in the presence of very small anomalies.   In this parameter range RPCA has difficulty detecting the anomalies since they are three orders of magnitude smaller than the ambient low-rank background. 
 Figure \ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_1.000000} shows RPCA running on data with a small number of anomalies of the same order of magnitude as the low-rank background.  In this parameter regime, the RPCA algorithm easily detects the anomalies.  Figure \ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_50.000000} shows some very large anomalies, and again the RPCA algorithm detects the easily.
-Figures \ref{fig:m_200_n_20_k_6_numAnoms_50_sizeAnoms_0.010000} and \ref{fig:m_200_n_20_k_6_numAnoms_200_sizeAnoms_0.100000} show the limits of the RPCA algorithm in the presence of many anomalies.  Figure \ref{fig:m_200_n_20_k_6_numAnoms_50_sizeAnoms_0.010000} has $50$ anomalies whose size is two-orders of magnitude smaller than the ambient low-rank data and Figure \ref{fig:m_200_n_20_k_6_numAnoms_200_sizeAnoms_0.100000} has $200$ anomalies whose size is one-order of magnitude smaller than the ambient low-rank data.  In both cases the RPCA algorithm detects the anomalies, but not as cleanly as in Figure \ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_1.000000}.
+Figure \ref{fig:difficult RPCA} and \ref{fig:m_200_n_20_k_6_numAnoms_200_sizeAnoms_0.100000} show the limits of the RPCA algorithm in the presence of many anomalies.  
 
 % Insert Figures for three percent anomalies size 5
 
 \begin{figure}
     \begin{subfigure}{.45\textwidth}
     \centering
-    \includegraphics[width=.9\linewidth]{{images/new_7-13-2020/runRPCAAnomalyTest_images_m_200_n_20_k_6_numAnoms_10_sizeAnoms_0.001000}.png}
+    \includegraphics[width=.9\linewidth]{{images/new_7-26-2020/runRPCAAnomalyTest_images_m_200_n_20_k_6_numAnoms_10_sizeAnoms_0.001000}.png}
     \end{subfigure}
-    \begin{subfigure}{.45\textwidth}
-    \centering
-    \includegraphics[width=.9\linewidth]{{images/new_7-13-2020/runRPCAAnomalyTest_singular_values_m_200_n_20_k_6_numAnoms_10_sizeAnoms_0.001000}.png}
-    \end{subfigure}
+    % \begin{subfigure}{.45\textwidth}
+    % \centering
+    % \includegraphics[width=.9\linewidth]{{images/new_7-26-2020/runRPCAAnomalyTest_singular_values_m_200_n_20_k_6_numAnoms_10_sizeAnoms_0.001000}.png}
+    % \end{subfigure}
     \caption{An easy example of RPCA with $10$ anomalies, each of size $50$.}
     \label{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_0.001000}
 \end{figure}
@@ -632,12 +646,12 @@ Figures \ref{fig:m_200_n_20_k_6_numAnoms_50_sizeAnoms_0.010000} and \ref{fig:m_2
 \begin{figure}
     \begin{subfigure}{.45\textwidth}
     \centering
-    \includegraphics[width=.9\linewidth]{{images/new_7-13-2020/runRPCAAnomalyTest_images_m_200_n_20_k_6_numAnoms_10_sizeAnoms_1.000000}.png}
+    \includegraphics[width=.9\linewidth]{{images/new_7-26-2020/runRPCAAnomalyTest_images_m_200_n_20_k_6_numAnoms_10_sizeAnoms_1.000000}.png}
     \end{subfigure}
-    \begin{subfigure}{.45\textwidth}
-    \centering
-    \includegraphics[width=.9\linewidth]{{images/new_7-13-2020/runRPCAAnomalyTest_singular_values_m_200_n_20_k_6_numAnoms_10_sizeAnoms_1.000000}.png}
-    \end{subfigure}
+    % \begin{subfigure}{.45\textwidth}
+    % \centering
+    % \includegraphics[width=.9\linewidth]{{images/new_7-26-2020/runRPCAAnomalyTest_singular_values_m_200_n_20_k_6_numAnoms_10_sizeAnoms_1.000000}.png}
+    % \end{subfigure}
     \caption{An easy example of RPCA with $10$ anomalies, each of size $50$.}
     \label{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_1.000000}
 \end{figure}
@@ -645,12 +659,12 @@ Figures \ref{fig:m_200_n_20_k_6_numAnoms_50_sizeAnoms_0.010000} and \ref{fig:m_2
 \begin{figure}
     \begin{subfigure}{.45\textwidth}
     \centering
-    \includegraphics[width=.9\linewidth]{{images/new_7-13-2020/runRPCAAnomalyTest_images_m_200_n_20_k_6_numAnoms_10_sizeAnoms_50.000000}.png}
+    \includegraphics[width=.9\linewidth]{{images/new_7-26-2020/runRPCAAnomalyTest_images_m_200_n_20_k_6_numAnoms_10_sizeAnoms_50.000000}.png}
     \end{subfigure}
-    \begin{subfigure}{.45\textwidth}
-    \centering
-    \includegraphics[width=.9\linewidth]{{images/new_7-13-2020/runRPCAAnomalyTest_singular_values_m_200_n_20_k_6_numAnoms_10_sizeAnoms_50.000000}.png}
-    \end{subfigure}
+    % \begin{subfigure}{.45\textwidth}
+    % \centering
+    % \includegraphics[width=.9\linewidth]{{images/new_7-26-2020/runRPCAAnomalyTest_singular_values_m_200_n_20_k_6_numAnoms_10_sizeAnoms_50.000000}.png}
+    % \end{subfigure}
     \caption{An easy example of RPCA with $10$ anomalies, each of size $50$.}
     \label{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_50.000000}
 \end{figure}
@@ -658,28 +672,39 @@ Figures \ref{fig:m_200_n_20_k_6_numAnoms_50_sizeAnoms_0.010000} and \ref{fig:m_2
 \begin{figure}
     \begin{subfigure}{.45\textwidth}
     \centering
-    \includegraphics[width=.9\linewidth]{{images/new_7-13-2020/runRPCAAnomalyTest_images_m_200_n_20_k_6_numAnoms_50_sizeAnoms_0.010000}.png}
+    \includegraphics[width=.9\linewidth]{{images/new_7-26-2020/runRPCAAnomalyTest_images_m_200_n_20_k_6_numAnoms_50_sizeAnoms_0.010000}.png}
     \end{subfigure}
-    \begin{subfigure}{.45\textwidth}
-    \centering
-    \includegraphics[width=.9\linewidth]{{images/new_7-13-2020/runRPCAAnomalyTest_singular_values_m_200_n_20_k_6_numAnoms_50_sizeAnoms_0.010000}.png}
-    \end{subfigure}
+    % \begin{subfigure}{.45\textwidth}
+    % \centering
+    % \includegraphics[width=.9\linewidth]{{images/new_7-26-2020/runRPCAAnomalyTest_singular_values_m_200_n_20_k_6_numAnoms_50_sizeAnoms_0.010000}.png}
+    % \end{subfigure}
     \caption{A difficult example of RPCA with $50$ anomalies, each of size $0.01$.  Note, even with many anomalies RPCA does a good job.}
     \label{fig:m_200_n_20_k_6_numAnoms_50_sizeAnoms_0.010000}
 \end{figure}
 
-\begin{figure}
+\begin{figure*}
+    \centering
     \begin{subfigure}{.45\textwidth}
     \centering
-    \includegraphics[width=.9\linewidth]{{images/new_7-13-2020/runRPCAAnomalyTest_images_m_200_n_20_k_6_numAnoms_200_sizeAnoms_0.100000}.png}
+    \includegraphics[width=.9\linewidth]{{images/new_7-26-2020/runRPCAAnomalyTest_images_m_200_n_20_k_6_numAnoms_200_sizeAnoms_0.100000}.png}
     \end{subfigure}
     \begin{subfigure}{.45\textwidth}
     \centering
-    \includegraphics[width=.9\linewidth]{{images/new_7-13-2020/runRPCAAnomalyTest_singular_values_m_200_n_20_k_6_numAnoms_200_sizeAnoms_0.100000}.png}
+    \includegraphics[width=.9\linewidth]{{images/new_7-26-2020/runRPCAAnomalyTest_images_m_200_n_20_k_6_numAnoms_1000_sizeAnoms_1.000000}.png}
     \end{subfigure}
-    \caption{A difficult example of RPCA with $200$ anomalies, each of size $0.1$.}
-    \label{fig:m_200_n_20_k_6_numAnoms_200_sizeAnoms_0.100000}
-\end{figure}
+
+    \begin{subfigure}{.45\textwidth}
+    \centering
+    \includegraphics[width=.9\linewidth]{{images/new_7-26-2020/runRPCAAnomalyTest_singular_values_m_200_n_20_k_6_numAnoms_200_sizeAnoms_0.100000}.png}
+    \end{subfigure} 
+    \begin{subfigure}{.45\textwidth}
+    \centering
+    \includegraphics[width=.9\linewidth]{{images/new_7-26-2020/runRPCAAnomalyTest_singular_values_m_200_n_20_k_6_numAnoms_1000_sizeAnoms_1.000000}.png}
+    \end{subfigure}
+
+    \caption{A difficult example of RPCA with $200$ anomalies, each of size $0.1$ on the left and $1000$ anomalies, each of size $1$ on the right.  On the left, the rank is computed correctly, but on the right the problem is so difficult that the rank is computed incorrectly as well.}
+    \label{fig:difficult RPCA}
+\end{figure*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -692,28 +717,44 @@ Figures \ref{fig:error_SPCA_prediction_with_RPCA_first} and \ref{fig:error_SPCA_
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.45\textwidth]{{images/new_7-13-2020/short_test_S_title_PCA_prediction_without_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
+    \includegraphics[width=0.45\textwidth]{{images/new_7-26-2020/short_test_S_title_PCA_prediction_without_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
     \caption{A PCA prediction without RPCA first.  Note that both columns and rows have noise.}
     \label{fig:error_PCA_prediction_without_RPCA}
 \end{figure}
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.45\textwidth]{{images/new_7-13-2020/short_test_S_title_PCA_prediction_with_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
+    \includegraphics[width=0.45\textwidth]{{images/new_7-26-2020/short_test_S_title_PCA_prediction_without_RPCA_first_selected_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
+    \caption{A PCA prediction without RPCA first.  Note that both columns and rows have noise. In this figure we emphasize the errors caused by training data by removing the rows with anomalies in the testing data.}
+    \label{fig:error_PCA_prediction_without_RPCA}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.45\textwidth]{{images/new_7-26-2020/short_test_S_title_PCA_prediction_with_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
     \caption{A PCA prediction with RPCA first.  Note that only the rows have noise where there are anomalies in the testing data.}
     \label{fig:error_PCA_prediction_with_RPCA_first}
 \end{figure}
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.45\textwidth]{{images/new_7-13-2020/short_test_S_title_SPCA_prediction_without_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
+    \includegraphics[width=0.45\textwidth]{{images/new_7-26-2020/short_test_S_title_PCA_prediction_with_RPCA_first_selected_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
+    \caption{A PCA prediction with RPCA first.  Note that only the rows have noise where there are anomalies in the testing data.  In this figure we emphasize the errors caused by training data by removing the rows with anomalies in the testing data.}
+    \label{fig:error_PCA_prediction_with_RPCA_first}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.45\textwidth]{{images/new_7-26-2020/short_test_S_title_SPCA_prediction_without_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
     \caption{An SPCA prediction without RPCA first.  Note that, similar to PCA without RPCA, both columns and rows are incorrect because of anomalies in the training data.}
     \label{fig:error_SPCA_prediction_without_RPCA_first}
 \end{figure}
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.45\textwidth]{{images/new_7-13-2020/short_test_S_title_SPCA_prediction_without_RPCA_first_selected_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
+    \includegraphics[width=0.45\textwidth]{{images/new_7-26-2020/short_test_S_title_SPCA_prediction_without_RPCA_first_selected_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
     \caption{An SPCA prediction without RPCA first.  Note that, similar to PCA without RPCA, both columns and rows are incorrect because of anomalies in the training data.  In this figure we emphasize the errors caused by training data by removing the rows with anomalies in the testing data.}
     \label{fig:error_SPCA_prediction_without_RPCA_first_selected}
 \end{figure}
@@ -722,13 +763,13 @@ Figures \ref{fig:error_SPCA_prediction_with_RPCA_first} and \ref{fig:error_SPCA_
 % \begin{figure*}
 % \begin{subfigure}{.45\textwidth}
 %     \centering
-%     \includegraphics[width=0.9\textwidth]{{images/new_7-13-2020/short_test_S_title_SPCA_prediction_with_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
+%     \includegraphics[width=0.9\textwidth]{{images/new_7-26-2020/short_test_S_title_SPCA_prediction_with_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
 %     \caption{An SPCA prediction without RPCA first.  Note that, similar to PCA with RPCA, both only rows are incorrect because of anomalies in the testing data.}
 %     \label{fig:error_SPCA_prediction_with_RPCA_first}
 % \end{subfigure}
 % \begin{subfigure}{.45\textwidth}
 %     \centering
-%     \includegraphics[width=0.9\textwidth]{{images/new_7-13-2020/short_test_S_title_SPCA_prediction_with_RPCA_first_selected_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
+%     \includegraphics[width=0.9\textwidth]{{images/new_7-26-2020/short_test_S_title_SPCA_prediction_with_RPCA_first_selected_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
 %     \caption{An SPCA prediction without RPCA first.  Note that, similar to PCA with RPCA, both only rows are incorrect because of anomalies in the testing data.  In this figure we show that the anomalies are exactly recovered in by removing the rows with anomalies in the testing data.}
 %     \label{fig:error_SPCA_prediction_with_RPCA_first_selected}
 % \end{subfigure}
@@ -736,13 +777,13 @@ Figures \ref{fig:error_SPCA_prediction_with_RPCA_first} and \ref{fig:error_SPCA_
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.45\textwidth]{{images/new_7-13-2020/short_test_S_title_SPCA_prediction_with_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
+    \includegraphics[width=0.45\textwidth]{{images/new_7-26-2020/short_test_S_title_SPCA_prediction_with_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
     \caption{An SPCA prediction without RPCA first.  Note that, similar to PCA with RPCA, both only rows are incorrect because of anomalies in the testing data.}
     \label{fig:error_SPCA_prediction_with_RPCA_first}
 \end{figure}
 \begin{figure}
     \centering
-    \includegraphics[width=0.45\textwidth]{{images/new_7-13-2020/short_test_S_title_SPCA_prediction_with_RPCA_first_selected_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
+    \includegraphics[width=0.45\textwidth]{{images/new_7-26-2020/short_test_S_title_SPCA_prediction_with_RPCA_first_selected_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
     \caption{An SPCA prediction without RPCA first.  Note that, similar to PCA with RPCA, both only rows are incorrect because of anomalies in the testing data.  In this figure we show that the anomalies are exactly recovered in by removing the rows with anomalies in the testing data.}
     \label{fig:error_SPCA_prediction_with_RPCA_first_selected}
 \end{figure}
@@ -752,7 +793,7 @@ Figures \ref{fig:error_SPCA_prediction_with_RPCA_first} and \ref{fig:error_SPCA_
 
 % \begin{figure}
 %     \centering
-%     \includegraphics[width=0.45\textwidth]{{images/new_7-13-2020/short_train_S_m_200_n_20_k_10_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
+%     \includegraphics[width=0.45\textwidth]{{images/new_7-26-2020/short_train_S_m_200_n_20_k_10_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
 %     \caption{Caption}
 %     \label{fig:my_label}
 % \end{figure}
@@ -764,8 +805,15 @@ Figure \ref{fig:real_data} shows the results of our methodologies running on rea
 
 \begin{figure*}
     \centering
-    \includegraphics[width=0.8\textwidth]{images/new_7-13-2020/real_data.png}
-    \caption{An example of RPCA analysis on real data.   We add anomalies of our own and choose the smallest $\lambda$ that recovers our added anomalies.  The entries in red circles are anomalies in the actual data.}
+    \includegraphics[width=0.8\textwidth]{images/new_7-26-2020/real_data_svd.png}
+    \caption{An example of RPCA analysis on real data. This example uses a large $\lambda=\frac{0.9}{\sqrt{max(m,n)}}$ to emphasize the low-rank structure. }
+    \label{fig:real_data}
+\end{figure*}
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/new_7-26-2020/real_data.png}
+    \caption{An example of RPCA analysis on real data.   We add anomalies of our own and choose the smallest $\lambda$ that recovers our added anomalies.  The entries in red circles are anomalies in the actual data. This example uses a large $\lambda=\frac{6.0}{\sqrt{max(m,n)}}$ to emphasize anomalies. }
     \label{fig:real_data}
 \end{figure*}
 
