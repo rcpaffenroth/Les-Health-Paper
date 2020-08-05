@@ -6,7 +6,7 @@
 % \usepackage{authblk}
 \usepackage{float}
 \usepackage{graphicx}
-\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[disable, colorinlistoftodos]{todonotes}
 \usepackage{soul}
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
@@ -27,7 +27,6 @@
 % \affil[5]{Worcester Polytechnic Institute}
 
 \begin{document}
-
 \title{Reducing Reporting Burden of Healthcare Data Using Robust Principal Component Analysis (RPCA)}
 % My title isn't perfect but I think it is closer.  Let';s get it even better
 %\title{Minimizing the Burden of Measuring Healthcare Data with Robust PCA}
@@ -60,10 +59,11 @@ Bedford, MA 01730-1420}
 \todo{RCP: Remove page numbering before submission}
 
 \begin{abstract}
-%\todo [ color = red]{LS: MITRE ask:The entire background section has no citations. Usually there is a citation that corraborates your claims that there is an actual problem. }
-%\todo [ color = red]{LS notes:  looks useful as does %https://blog.ncqa.org/meahttps://www.healthit.gov/sites/default/files/page/2018-11/Draft%20Strategy%20on%20Reducing%20Regulatory%20and%20Administrative%20Burden%20Relating.pdfsurement-burden-heres-what-we-told-onc/} 
+%\todo [ color = red]{LS: MITRE ask:The entire background section has no citations. Usually there is a citation that corroborates your claims that there is an actual problem. DONE but citation needs to be fixed }
+%\todo [ color = red]{LS notes:  looks useful as does 
+%https://blog.ncqa.org/meahttps://www.healthit.gov/sites/default/files/page/2018-11/Draft%20Strategy%20on%20Reducing%20Regulatory%20and%20Administrative%20Burden%20Relating.pdfsurement-burden-heres-what-we-told-onc/} 
 
-%\todo [color = red]{LS: MITRE ask: Are you saying that you can’t reduce the reporting burden until after the data is already reported, when you can do the analysis of correlations? Theoretically this will reduce the burden %the following}
+%\todo [color = red]{LS: MITRE ask: Are you saying that you can’t reduce the reporting burden %until after the data is already reported, when you can do the analysis of correlations? %Theoretically this will reduce the burden %the following DONE}
 
 The US government imposes reporting requirements on healthcare providers as health metrics are important for assessing and improving the US healthcare system .  However, proposed health metrics requirements can be unnecessarily burdensome if the preliminary analysis does not consider possible redundancies between the various metrics.  Accordingly, if some subset of the proposed metrics could be demonstrated to contain nearly all the information of  the full set of metrics,
 % (e.g.,  having the subset permits one  to accurately predict the values of the metrics outside the subset)
@@ -79,29 +79,37 @@ detection, health analytics, dimension reduction
 %\todo[color=orange]{DONE: 8 Jul 2020:  This section was rewritten by LS.  I think it is in good shape but it would be nice for RP to quickly review it. }
 Government agencies  mandate  metric reporting requirements to help them execute their missions.  In particular,  metrics are required for the evaluation of healthcare systems and initiatives in order to improve healthcare safety, quality and value. However, collecting and managing healthcare quality measures is expensive,  time consuming and prone to inaccuracies \cite{rao2017impact, cutler2012reducing}.  These inaccuracies take two forms.  Some inaccuracies are caused by the reality that attempts at precise metrics are not always met whereas others are wildly anomalous due to transcription errors, a misunderstanding of the precise requested metric or other business process errors.
 
+The need for lessening the mandated reported metrics has long been recognized yet is still a concern.  For example, in 2016, Congress passes the  21st Century Cures Act\footnote{H.R. 34, Public Law 114-255, Section 4001 - Dec. 13, 2016} which identified the importance of easing regulatory burden with the use of electronic health records, EHRs, and required  the Department of Health and Human Services to publicize a strategy, seek public comments and then published a finish set of recommendations to reduce the burden. \cite{HHS2019str} The recommendations were strategic in nature. One recommendation was to "reduce the effort and time required to meet regulatory reporting requirements for clinicians, hospitals, and health care organizations."  This paper presents a machine learning approach to assist with this recommendation. 
+
+
 An existing set of health metrics may be unnecessarily large and onerous because the initial analysis to design the metrics did not properly account for redundancy of information between metrics \cite{lesidea1, vostok2013assessment}.
 %\todo[color=yellow,]{8 Jul  find details }Ref AcademyHealthAbstract].LS thinks we should DROP this} 
-Identifying such redundancies using standard methods revolving around computing correlations between the proposed metrics is hampered because the inevitable inaccuracies in the data will give a false sense of the correlations and underlying dimensionality of the metrics.   Instead, more advanced methods are required to effectively correct for imprecise inaccuracies in the data, identify and remove anomalous reported metrics, and only then examine the resulting correlations and dimensionality structure.
+Identifying such redundancies using standard methods revolving around computing correlations between the proposed metrics is hampered because the inevitable inaccuracies in the data will give a false sense of the correlations and underlying dimensionality of the metrics.   Instead, more advanced methods are required to effectively correct for  inaccuracies in the data, identify and remove anomalous reported metrics, and only then examine the resulting correlations and dimensionality structure.
 
 A promising data driven analytical approach to reduce metric reporting requirements burden without compromising the information which can be gleaned from the data is reported in this paper. This approach is applied to real data of  health metrics obtained from public use files collected over a period of one year.  However to validate the approach it was also applied to synthetic data where ground truth is known and both small errors and anomalous errors were intentionally inserted.
 
 
 \subsection{Contribution}
+\todo [ color = red] { I imagine that the first paragraph could be a description of the mathematical achievement and the second paragraph a description non-technical metric burden achievement}
 This paper builds on previous Robust Principal Component Analysis (RPCA) research with an approach which is described and demonstrated to algorithmically remove anomalies as well as provide a low-rank approximation of the original data.  This low-rank approximation provides a pathway to reducing the reporting requirements with minimal adverse impact.  The details for the algorithms that underlie this work can be found in \cite{paffenroth2018robust,Paffenroth2012} (and references therein), and here we focus on the application of such algorithms to the particular nuances of healthcare metrics. 
 
-\todo[color = yellow] { Discuss Randy's new table of MSE and estimated rank (and then ask Randy to look at it}
+\todo[color = yellow] { Discuss Randy's new table of MSE and estimated rank (and then ask Randy to look at it) LS is confused: it from Table 1 it looks like PCA and RPCA is better than SPCA and RPCA }
 In particular, empirical examples on synthetic data show that combining Sparse Principal Component Analysis (SPCA) with RPCA pre-processing was the only method tested herein that found all possible anomalies 
 %and led to an MSE in reconstructing as low as possible. 
-and correctly determined the minimum metric reporting burden. For example, we considered the case of $100$ training facilities and $100$ testing facilities with $20$ metrics each (but for which only $6$ would have sufficed). We complicated our task by adding $5$ anomalies in both  data sets.  
+and correctly determined the minimum metric reporting burden. For example, we considered the case of $100$ training facilities and $100$ testing facilities with $20$ metrics each (but for which only $6$ would have sufficed). It succeeded in correctly determining the minimum metric reporting burden even when we  complicated our task by adding $5$ anomalies to the  data sets.  This was accomplished by RPCA identifying in the training set the reduced dimensional space of the parameters without being distracted by the anomalies present so the test data set analysis by SPCA had an accurate reconstruction of the metrics recommended to not be measured.
 \todo [color = orange] {RP: Should we add to the table the number of anomalies found as well as the number of false detections for each methods?}
-As shown in Tables \ref{tab:table1} and \ref{tab:table2} our SPCA with RPCA approach detected all anomalies (and hence have an insignificant MSE) and discovered that the burden of measuring could have been reduced from $20$ metrics to only $6$ as the MSE values indicated that there would be insignificant loss of the ability to reconstruct the original true metric values.
+Specifically, as shown Table \ref{tab:table2} the SPCA with RPCA approach detected all anomalies  and as shown in Table \ref{tab:table1} and discovered that the burden of measuring could have been reduced from $20$ metrics to only $6$ as the MSE values while incurring insignificant loss of the ability to reconstruct the original true metric values in absence of anomalies and with a small loss of ability to reconstruct the original data when anomalies were present.
 %, with no false alarms, all anomalies which permitted the algorithm to discover that the burden of measuring could have been reduced from $20$ metrics to only $6$ without \emph{any} appreciable loss of information.  
-\todo [color = red]{LS: MITRE ask: Clearly this is for a very specialized audience, because those figures don’t
+\todo [color = yellow]{LS: MITRE ask: Clearly this is for a very specialized audience, because those figures don’t
 make a whole lot of sense to me. As such, the point you are trying to make
 is not well served.}
 
 
-Figures \ref{fig:error_PCA_prediction_without_RPCA}, \ref{fig:error_PCA_prediction_with_RPCA_first}, \ref{fig:error_SPCA_prediction_without_RPCA_first}, and \ref{fig:error_SPCA_prediction_without_RPCA_first_selected} competing methods either mis-detect the anomalies, incorrectly predict the non-anomalous entries, or get the required number of required metrics incorrect.
+Figures \ref{fig:error_PCA_prediction_without_RPCA},
+\ref{fig:error_PCA_prediction_without_RPCA_selected},
+\ref{fig:error_PCA_prediction_with_RPCA_first},
+\ref{fig:error_PCA_prediction_with_RPCA_first_selected},
+\ref{fig:error_SPCA_prediction_without_RPCA_first}, and \ref{fig:error_SPCA_prediction_without_RPCA_first_selected} competing methods either mis-detect the anomalies, incorrectly predict the non-anomalous entries, or get the required number of required metrics incorrect.
 As shown in Figures \ref{fig:error_SPCA_prediction_with_RPCA_first} and \ref{fig:error_SPCA_prediction_with_RPCA_first_selected} our method can be seen to be the only method that accomplishes all three tasks (anomaly detection, correctly computing the number of required metrics, and reconstructing the complete data set).
 \todo{RCP: Mention real data set here one real data metrics are done.}
 %\todo[inline, color = yellow] {What do we do with this reference to newPaper?  RCP DONE!  I used my original RPCA paper and our arxiv.org paper.   If, however, you mean the upcoming that has not even been started yet, I don't think that we can cite it. }
@@ -114,8 +122,9 @@ In this paper we make several contributions, including
 
 \begin{itemize}
     \item we demonstrate how RPCA can be used to find anomalies in both real and synthetic data sets,
+    %which permits the SPCA to be very effective,
     \item we show how, once anomalies are identified, one may identify a small subset of predictors from which the remaining predictors may be generated, and
-    \item we apply these algorithms to a real-world healthcare data set to robustly select a subset of predictors that may be cheaply measured and detect anomalies in testing data.
+    \item we apply these algorithms to a real-world healthcare data set to robustly select a subset of predictors that may be less expensively measured and detect anomalies in testing data.
 \end{itemize}
 
 \section{Analysis}
@@ -143,8 +152,8 @@ In contrast, data analysis was performed on both synthetic and real world data s
 \subsection{Traditional PCA} \label{PCA}
 \todo[color=yellow]{LS:  Update code to reflect that it is not true that the main concern about PCA is the difficulty to interpret.  We don't like PCA because it reduces the dimension of the data but it doesn't reduce the number of measurements we use.}
 \todo[color=yellow]{LS:  It would be great to work through this section since it was copied from our arxiv.org paper.  This is a different audience and we want to avoid self-plagarism.}
-Traditional Principal Components Analysis (PCA) works well for dimensionality reduction.  However, it is often seen as difficult to interpret.  The reason for this is that PCA produces a set of results which are a linear combination of features.  This is useful for understanding the rank or underlying dimension, but does not help to select specific measures from a set of attributes. Additionally, and an important note for this research, is that PCA is extremely sensitive to outliers.  One outlier in the data can completely change the results.
-
+Traditional Principal Components Analysis (PCA) works well for dimensionality reduction.  However, it doesn't recommend the reduction of specific features as   PCA produces a set of results which are a linear combination of features.  This is useful for understanding the rank or underlying dimension, but does not help to select specific measures from a set of attributes. Additionally, and an important note for this research, is that PCA is extremely sensitive to outliers.  One outlier in the data can completely change the results.
+\todo [color = yellow]{LS: RP wants LS to put this part in his own words}
 In particular, consider a collection of
 points $\{x_0,...,x_m\}$ with $x_i \in \mathbb{R}^n$.  Following the notation and presentation in \cite{paffenroth2018robust} we note that each point represents some object of interest, for example the $n$ measured properties of some health-care provider, the set of points $\{x_0,...,x_m\}$ would therefore
 represent the collection of health-care providers that we intend to analyze.
@@ -168,7 +177,7 @@ The optimization problem in (\ref{PCAopt}) is often solved by way of the Singula
 Decomposition (SVD) \cite{Eckart1936}.  In particular, by the SVD we know that $X=U \Sigma V^T$ where, assuming that $n<m$, we have $U \in \mathbb{R}^{m \times n}$ and $U$ is unitary in that $U^T U = I$; $V \in \mathbb{R}^{n \times n}$ and $V$ is unitary in that $V^T V = I$; and $\Sigma \in \mathbb{R}^{n \times n}$ and $\Sigma$ is diagonal with positive diagonal entries $\sigma_i$ called the \emph{singular values} of $X$.
 
 Further, assuming the singular values are ordered such that $\sigma_i \ge \sigma_{i+1}$
-and, for a given matrix $X$, we denote by $X_{i:j,k:l}$ the principle sub-matrix of $X$ comprised of rows $i$ through $j$ and columns $k$ through $l$, one can write principle component analysis as 
+and, for a given matrix $X$, we denote by $X_{i:j,k:l}$ the principle sub-matrix of $X$ comprised of rows $i$ through $j$ and columns $k$ through $l$, one can write Principal Component Analysis as 
 
 \begin{align*}
 X 
@@ -177,10 +186,12 @@ X
 U_{1:k,1:k} & U_{1:k,k+1:m} \\
 U_{k+1:n,1:k} & U_{k+1:n,k+1:m} \\
 \end{bmatrix}
+&
 \begin{bmatrix}
 \Sigma_{1:k,1:k} & 0 \\
 0 & \Sigma_{k+1:n,k+1:n} \\
-\end{bmatrix}
+\end{bmatrix} \\
+&
 \begin{bmatrix}
 V_{1:k,1:k} & V_{1:k,k+1:n} \\
 V_{k+1:n,1:k} & V_{k+1:n,k+1:n} \\
@@ -192,7 +203,7 @@ entry of $\Sigma_{1:k,1:k}$ we approximate $X$ by setting $\Sigma_{k+1:n,k+1:n}=
 and get
 
 \begin{align*}
-& X \approx 
+X \approx 
 \begin{bmatrix}
 U_{1:k,1:k} & U_{1:k,k+1:m} \\
 U_{k+1:n,1:k} & U_{k+1:n,k+1:m} \\
@@ -200,12 +211,12 @@ U_{k+1:n,1:k} & U_{k+1:n,k+1:m} \\
 \begin{bmatrix}
 \Sigma_{1:k,1:k} & 0 \\
 0 & 0 \\
-\end{bmatrix}
+\end{bmatrix}\\
 \begin{bmatrix}
 V_{1:k,1:k} & V_{1:k,k+1:n} \\
 V_{k+1:n,1:k} & V_{k+1:n,k+1:n} \\
 \end{bmatrix} \\
-& = 
+= 
 \begin{bmatrix}
 U_{1:k,1:k} & 0 \\
 U_{k+1:n,1:k} & 0 \\
@@ -218,7 +229,7 @@ U_{k+1:n,1:k} & 0 \\
 V_{1:k,1:k} & V_{1:k,k+1:n} \\
 0 & 0 \\
 \end{bmatrix} \\
-& = 
+= 
 \begin{bmatrix}
 U_{1:k,1:k} \\
 U_{k+1:n,1:k} \\
@@ -229,7 +240,7 @@ U_{k+1:n,1:k} \\
 \begin{bmatrix}
 V_{1:k,1:k} & V_{1:k,k+1:n} \\
 \end{bmatrix} \\
-& = \hat{U} \hat{\Sigma} \hat{V}^T
+= \hat{U} \hat{\Sigma} \hat{V}^T
 \end{align*}
 
 We observe that if $X$ is exactly of rank $k$ then equality in the above equation holds (since $\Sigma_{k+1:n,k+1:n}=0$ is already true).  Similarly, we also have that $\hat{U} \hat{\Sigma} \hat{V}^T$ is the optimal low-rank approximation of $X$.  So, $X$ can we compressed to $k$ predictors by computing $X \begin{bmatrix} V_{1:k,1:k} & V_{1:k,k+1:n} \\ \end{bmatrix}^T$ and reconstructed by using $(X \begin{bmatrix} V_{1:k,1:k} & V_{1:k,k+1:n} \\ \end{bmatrix}^T) \begin{bmatrix} V_{1:k,1:k} & V_{1:k,k+1:n} \\ \end{bmatrix}$
@@ -247,13 +258,12 @@ Accordingly, we require a version of PCA which is robust to these types of measu
 
 \subsection{Sparse PCA}\label{SPCA}
 
-As opposed to PCA, in which the principal components are generally linear combinations of all of the predictors, one can instead consider Sparse PCA \cite{htf01} in which individual predictors are chosen to reconstruct the rest. In particular, if $X$ is exactly of rank $k$ then any $k$ columns of $X$ can be used to exactly reconstruct the remaining $n-k$ columns of $X$.
+As opposed to PCA, in which the principal components are generally linear combinations of all of the predictors, one can instead consider Sparse PCA \cite{htf01} in which individual predictors are chosen to reconstruct the rest. Below we argue that  if $X$ is exactly of rank $k$ then any $k$ columns of $X$ can be used to exactly reconstruct the remaining $n-k$ columns of $X$.
 
 % TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD.TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD.TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD.
-
-For example, consider $S$ is a selection matrix with $S \in \{0,1\}^{n \times K}$ and every column of $S$ has precisely a single entry of $1$ and every row of $S$ has at most a single entry of $1$.
-
-For example
+\todo [color = red]{RP: need to deal with fact we are using the variable two different ways: as a selector matrix and as a matrix of anomolies}
+Consider $S$ as a selection matrix with $S \in \{0,1\}^{n \times K}$ and every column of $S$ has precisely a single entry of $1$ and every row of $S$ has at most a single entry of $1$.
+For example, when the matrix S is set to
 
 $$
 S = 
@@ -266,19 +276,16 @@ S =
 0 & 0 & 0 \\
 \end{bmatrix}
 $$
-
-Selects the $1$-st, $3$-rd and $4$-th column of an $X$ that originally had $6$ columns.
-
-So, in general we write 
-
+\noindent
+and
 $$X_K = X S$$
+\noindent
+then S  selects in $X_K$ the $1$-st, $3$-rd and $4$-th column of an $X$ that originally had $6$ columns.
 
-\noindent which, as we computing a dot product of $S$ on the right, selects $k$ columns from $X$.
-%\todo [ color=red]{ LS: MITRE Ask: "column" Those look like rows to me}
-If were to estimate $X$ from $X_K$ we would need two properties.
 
+More generally, if we're to estimate $X$ from $X_K$ we would need two properties.
 First, our estimate $\hat{X}$ of $X$ should have the property that it agrees with $X$ on $S$, in other words there is some $Z$ such that
-
+\todo [ color = red]{What is the interpretation of S S^T and Z }
 $$
 \hat{X} = X S S^T + Z (I-S S^T) = X_K S^T + Z (I-S S^T)
 $$
@@ -291,26 +298,31 @@ $$
 
 Plugging the first into the second we get
 
+\todo [ color = red] { I would defer to you on this but I suggest putting in the first equation below and then write that this implies Z = kjljlkjlkj (and delete the intermediate equations.  This equation can there be used in Algorithm 3 and ALgorithm 4}
+
 $$
 X_K S^T + Z (I-S S^T) = (X_K S^T + Z (I-S S^T)) V V^T 
 $$
+which implies $Z$ can be expressed \emph{only}  on $X_K$,i.e.,
 
-expanding we get 
+$$Z= X_K \bigg(S^T - S^T V V^T\bigg) \bigg((I-S S^T)V V^T - (I-S S^T)\bigg)^{-1}.$$ 
+%Delete?expanding we get 
+%
+%
+%$X_K S^T + Z (I-S S^T) = X_K S^T V V^T + Z (I-S S^T)V V^T
+%
+%
+%ollecting terms
+%
+%$$
+%X_K (S^T - S^T V V^T) = Z ((I-S S^T)V V^T - (I-S S^T))
+%$$
 
-$$
-X_K S^T + Z (I-S S^T) = X_K S^T V V^T + Z (I-S S^T)V V^T
-$$
-
-Collecting terms
-
-$$
-X_K (S^T - S^T V V^T) = Z ((I-S S^T)V V^T - (I-S S^T))
-$$
-
-which we can solve for $Z$ and \emph{only depends on $X_K$}.
+%which we can solve for $Z$ and \emph{only depends on $X_K$}.
 
 \subsection{Robust PCA Convex Optimization Approach}
 \todo[color=yellow]{LS:  Can you add a few sentences here about $\lambda$, how it is chosen by how many anomalies appear in $S$.}
+\todo [ color = red]{Was there some specific text which you wanted me to change to put in my own words?}
 The Convex Optimization approach is based on Robust Principal Component Analysis (RPCA). In this section we closely follow the notation in \cite{Paffenroth2012a,Paffenroth2013b,paffenroth2018robust}. The RPCA approach will both remove anomalies and provide a low rank approximation of the original data. This is accomplished with a combination of a nuclear norm and a one norm which is regularized by a tuning parameter, $\lambda$ to induce sparsity. The Robust PCA formulation is as follows.
 
 \begin{align} \label{RPCA}
@@ -380,8 +392,8 @@ and $S$ from $Y$ (assuming the constraints mentioned previously).
 Approximation methods are used as implemented in the dimredu python package and available as open source here
 %\todo[color=red]{DONE. RCP and LS:  We need to discuss... RCP is not sure what this means "What about the results from Melanie et al.?"}
 \todo[color=yellow]{LS:  Ping Melanie to see if she has any results that would be good to add.}
-\footnote{The Python libraries and Jupyter notebook for generating the results in this paper can be found on bitbucker.org at ANONYMOUS.}
-
+\footnote{The Python libraries and Jupyter notebook for generating the results in this paper can be found on bitbucket.org at ANONYMOUS.}
+\todo [color = red]{RCP: MITRE thinks this should be bitbucker.org/ANONYMOUS.  Would correct this or confirm that MTIRE is wrong?}
 % \subsubsection{Robust PCA Combinatorial Approach}
 % \todo[color=yellow,inline]{Ok, this is important.  We are not actually doing any Sparse PCA!?   This indicates we are just doing Robust PCA.   That does agree with my memory, now that I think about it.  This makes things easier, but I am not sure what the combinatorial approach is anymore.}
 % \todo[inline]{Insert Deon's Problem Formulation here}
@@ -407,8 +419,8 @@ Based upon the above variable definitions, a synthetic data matrix $X$ is then c
 \item An anomaly matrix $S$ of the same size as $L$ is constructed.  Each of the entries of $S$ is $0$ except for $numAnoms$ entries, selected uniformly at random, which are set to $sizeAnoms$.
 \item A noise matrix $N$ of the same size as $L$ is constructed. Each of the entries of $N$ is set to a random draw from a Gaussian distribution with mean $0$ and standard deviation $noiseSize$.
 \end{enumerate}
-\noindent Our final synthetic $X$ matrix is then constructed as $X=L+S+N$.  In particular, this model is faithful to our health data since it is a combination of low-rank ambient data and sparse anomalies, as we expect in real-world hospital data.
-\todo [ color = red]{LS; MITRE ask: his isn’t very convincing. Why is that expected?  LS comment: He didn't like the word "expect".  He wants us to say that we assumed that the data had this form}
+\noindent Our final synthetic $X$ matrix is then constructed as $X=L+S+N$.  In particular, this model is faithful to  our assumption that real health data  is a combination of low-rank ambient data, i.e., a reduced number of independent metrics and sparse anomalies.
+%\todo [ color = red]{LS; MITRE ask: his isn’t very convincing. Why is that expected?  LS comment: He didn't like the word "expect".  He wants us to say that we assumed that the data had this form DONE}
 \todo{RPC: Needs more here. Check later.}
 % TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD.TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD.TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD.
 
@@ -435,13 +447,13 @@ The health data set that we chose to analyze was provided by the Centers for Med
     \label{fig:boxall}
 \end{figure}
 %\todo{RCP: DONE. Maybe that part of the paper should be summarized and some or all of these figures deleted.}
-\todo[color=yellow]{LS:  Add more explaination of analysis of these predictors.  This is the part where we get to call this a healthcare paper.}
+\todo[color=yellow]{LS:  Add more explanation of analysis of these predictors.  This is the part where we get to call this a healthcare paper.}
 
 The quality measures can be divided into distinct sub-categories. 
 %Boxplots created for each of these categories may reveal differences in the data distributions for each category of features. The GPRO features in particular appear to have greater variability and larger outliers as shown in \ref{fig:boxgpro}.
 
 \begin{enumerate}
-\item GPRO - Group Practice Reporting Option Features (16 measures) : GPRO features are collected by a web interface which was designed specifically to capture ACO-reported clinical quality data.
+\item GPRO - Group Practice Reporting Option Features (18 measures in 7 different groups) : GPRO features are collected by a web interface which was designed specifically to capture ACO-reported clinical quality data.\footnote{The 7 groups are: (1) Care Coordination, (2) Coronary Artery Disease, (3) Heart Failure, (4) Hypertension, (5) Ischemic Vascular Disease, (6) Diabetes, and (7) Method Health and preventive care}
 
 % \begin{figure}[H]
 %     \centering
@@ -451,9 +463,9 @@ The quality measures can be divided into distinct sub-categories.
 % \end{figure}
 
 
-\item CAHPS - Consumer Assessment of Healthcare Providers Features (10 measures) : CAHPS features
+\item CAHPS - Consumer Assessment of Healthcare Providers Survey features (8 measures) : CAHPS features
 %LS commented out 24 Jul 2020: , as shown in \ref{fig:boxcahps}, 
-are collected by a survey administered by a CMS-approved vendor selected and paid for by individual ACOs.
+are collected by a survey administered by a CMS-approved vendor selected and paid for by individual ACOs. \footnote {The 8 measures are (1) Getting timely care, appointments and information, (2) How well your providers communicate, (3) Patient's rating of provider, (4) Health promotion and education, (6) Shared decision making, (7) Health Status / Functional status, and  (8) Stewardship of patient resources}
 
 % \begin{figure}[H]
 %     \centering
@@ -462,9 +474,18 @@ are collected by a survey administered by a CMS-approved vendor selected and pai
 %     \label{fig:boxcahps}
 % \end{figure}
 
-\item EHR - Electronic Health Record Features (8 measures): EHR features
+\item EHR - Electronic Health Record Features (8 measures): the EHR features is note directly submitted but rather
 %LS commented out 24 Jul 2020: ,as shown in Figure \ref{fig:boxehr}, 
-are calculated by the CMS ACO PAC based on CMS claims and administrative data extracted from the National Level Repository. 
+ calculated by the CMS ACO PAC based on CMS claims and administrative data extracted from the National Level Repository. \footnote{The 8 measures are 
+(1) Risk standardized, All Condition Readmission,
+(2) Skilled Nursing Facility 30-Day All-Cause Readmission Measures,
+(3) All-Cause Unplanned Admissions for Patients with Diabetes,
+(4) All-Cause Unplanned Admissions for Patients with Heart Failure, 
+(5) All-Cause Unplanned Admissions for Patients with Multiple Chronic Conditions, 
+(6)	Ambulatory Sensitive Conditions Admissions: Chronic Obstructive Pulmonary Disease or Asthma in Older Adults, 
+(7) Ambulatory Sensitive Conditions Admissions: Heart Failure,  and 
+(8) Percent of Primary Care Physicians who Successfully Meet Meaningful Use Requirements.} 
+
 \end{enumerate}
 
 % \begin{figure}[H]
@@ -490,13 +511,14 @@ Each of these procedures are detailed in the following section.
 
 %TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD.TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD.TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD.
 
-\subsubsection{Approach}
+\subsubsection{Pure PCA Approach}
 
 %TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD.TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD.TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD.
 
 \todo{RCP: Perhaps these can be combined to make things shorter if we need space.}
 \todo [ color=red]{RP: MITRE wants more detail and/or clarity of the approach for the four approaches}
-In detail, the algorithm for our approach is the following when we use PCA by itself.  
+The pure PCA approach applies Singular Value Decomposition to  the training data set to identify the lower-ranked space. 
+\todo [color = yellow] {HOW DOES IT KNOW WHICH RANK.}  It then projects the test data onto that space and labels the difference between the original test data and the projected data as anomalous as indicated in Algorithm \ref{alg:pca prediction}:
 %TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD.TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD
 
 \begin{algorithm}
@@ -510,10 +532,12 @@ In detail, the algorithm for our approach is the following when we use PCA by it
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
-
-In detail, the algorithm for our approach is the following when we use SPCA by itself.
+\todo [ color = red]{ RP: LS added text which should be checked. Also, how does SPCA know how many metrics to select?}
+\subsubsection{Pure SPCA Approach}
+The pure SPCA approach makes an initial selection of $k$ metrics and selects $k$ columns of the training data and then uses PCA to identify the associated low ranked space.  This space is used to find the low ranked part of the test data and hence the anomalies in the test data. This is formally described in Algorithm \ref{alg:spca prediction}.
+%In detail, the algorithm for our approach is the following when we use SPCA by itself.
 % TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD.TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD
-
+\todo [ color = red] {RP: Why isn't Algorithm 2 listed here?}
 \begin{algorithm}
 \caption{SPCA prediction}\label{alg:spca prediction}
 \begin{algorithmic}[1]
@@ -521,8 +545,11 @@ In detail, the algorithm for our approach is the following when we use SPCA by i
 \State Make a selection matrix $S_{sel}$
 \State Select $k$ columns of $X_{train}$ to get $X_k = X_{train} S_{sel}$
 \State Perform PCA to get $U \Sigma V^T = SVD(X_k)$
-\State Solve for $Z$ using $X_k (S_{sel}^T - S_{sel}^T V V^T) = Z ((I-S_{sel} S_{sel}^T)V V^T - (I-S_{sel} S_{sel}^T))$.
-\State Project $X_{test}$ as $L_{test} = X_test S_{sel} S_{sel}^T + Z (I-S_{sel} S_{sel}^T)$.
+%new
+\State Set $Z = X_k (S_{sel}^T - S_{sel}^T V V^T)  ((I-S_{sel} S_{sel}^T)V V^T - (I-S_{sel} S_{sel}^T))^{-1}$
+%end of new
+%\State Solve for $Z$ using $X_k (S_{sel}^T - S_{sel}^T V V^T) = Z ((I-S_{sel} S_{sel}^T)V V^T - (I-S_{sel} S_{sel}^T))$.
+\State Project $X_{test}$ as $L_{test} = X_{test} S_{sel} S_{sel}^T + Z (I-S_{sel} S_{sel}^T)$.
 \State Anomalies are $S_{test} = X_{test} - L_{test}$
 \State \textbf{return} $L_{test}$, $S_{test}$
 \EndProcedure
@@ -530,14 +557,16 @@ In detail, the algorithm for our approach is the following when we use SPCA by i
 \end{algorithm}
 
 \todo{RCP:  Make clear what projectx-test is.  Can use new notation in Traditional PCA section.}
-In detail, the algorithm for our approach is the following when we use PCA by after RPCA preprocessing. 
+\subsubsection{PCA with RPCA Preprocessing Approach}
+%In detail, the algorithm for our approach is the following when we use PCA by after RPCA preprocessing. 
+Here RPCA is applied to the training data to identify the low ranked space of the training data.  Next, PCA is applied to the projection of the test data onto that space to identify the low rank test data and the anomalies in the test data.  The RPCA preprocessing step prevents the anomalies in the training data from inducing incorrect errors when processing the test data.  This is formally described in Algorithm \ref{alg:pca and rpca prediction}.
 % TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD.TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD
 
 \begin{algorithm}
 \caption{PCA prediction with RPCA preprocessing}\label{alg:pca and rpca prediction}
 \begin{algorithmic}[1]
 \Procedure{PCA prediction}{$X_{train}, X_{test}$}
-\State Perform RPCA to get $L_{train}, S_{train} = RPCA(X_{train}$
+\State Perform RPCA to get $L_{train}, S_{train} = RPCA(X_{train})$
 \State Perform PCA to get $U \Sigma V^T = SVD(L_{train})$
 \State Project $X_{test}$ as $L_{test} = X_{test} V V^T$
 \State Anomalies are $S_{test} = X_{test} - L_{test}$
@@ -545,20 +574,21 @@ In detail, the algorithm for our approach is the following when we use PCA by af
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
-
-In detail, the algorithm for our approach is the following when we use SPCA by after RPCA preprocessing. 
+\subsubsection{SPCA with RPCA Preprocessing Approach}
+In a manner similar to the  PCA with RPCA preprocessing approach, this approach applies RPCA to the SPCA analysis of the training data to prevent the anomalies in the training data from inducing incorrect errors when processing the test data.  This is formally described in Algorithm \ref {alg:spca and rpca prediction}.
+%In detail, the algorithm for our approach is the following when we use SPCA by after RPCA preprocessing. 
 %TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD.TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD
 
 \begin{algorithm}
 \caption{SPCA prediction with RPCA preprocessing}\label{alg:spca and rpca prediction}
 \begin{algorithmic}[1]
 \Procedure{SPCA prediction}{$X_{train}, X_{test}$}
-\State Perform RPCA to get $L_{train}, S_{train} = RPCA(X_{train}$
+\State Perform RPCA to get $L_{train}, S_{train} = RPCA(X_{train})$
 \State Make a selection matrix $S_{sel}$
 \State Select $k$ columns of $L_{train}$ to get $L_k = L_{train} S_{sel}$
 \State Perform PCA to get $U \Sigma V^T = SVD(L_k)$
 \State Solve for $Z$ using $L_k (S_{sel}^T - S_{sel}^T V V^T) = Z ((I-S_{sel} S_{sel}^T)V V^T - (I-S_{sel} S_{sel}^T))$.
-\State Project $X_test$ as $L_{test} = X_test S_{sel} S_{sel}^T + Z (I-S_{sel} S_{sel}^T)$.
+\State Project $X_{test}$ as $L_{test} = X_test S_{sel} S_{sel}^T + Z (I-S_{sel} S_{sel}^T)$.
 \State Anomalies are $S_{test} = X_{test} - L_{test}$
 \State \textbf{return} $L_{test}$, $S_{test}$
 \EndProcedure
@@ -591,20 +621,21 @@ In this paper we present several different types of results.
     \begin{center}
       \caption{RMSE error of reconstructions.}
       \label{tab:table1}
-      \begin{tabular}{l|c|c|c} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
-        \textbf{Reconstruction type} & Rank & \begin{minipage}{1in}\textbf{RMSE with no anomaly in testing}\end{minipage} & \begin{minipage}{1in}\textbf{RMSE with anomaly in testing}\end{minipage}\\
+      \begin{tabular}{l|c|c|c|c} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+        \textbf{Reconstruction type} & Rank & \begin{minipage}{0.42in}\textbf{Predictors to measure}\end{minipage}  & \begin{minipage}{0.50in}\textbf{RMSE with no anomaly in testing}\end{minipage} & \begin{minipage}{0.50in}\textbf{RMSE with anomaly in testing}\end{minipage}\\
         \hline
-        PCA & 9 & 4.3e-1 & 1.3e0\\
-        SPCA & N/A & 2.3e0 & 4.7e0 \\
-        PCA with RPCA & 6 & \textcolor{red}{5.3e-4} & 1.8e0  \\
-        SPCA with RPCA & 6 & \textcolor{red}{2.7e-3} & 6.3e0 \\
+        PCA & 9 & 20 & 4.3e-1 & 1.3e0\\
+        SPCA &N/A & 6 & 2.3e0 & 4.7e0 \\
+        PCA with RPCA & 6 & 20 & 5.3e-4 & 1.8e0  \\
+        SPCA with RPCA & 6 & 6 & 2.7e-3 & 6.3e0 \\
       \end{tabular}
     \end{center}
 \end{table}
-
+\noindent
+Table \ref{tab:table2} compares the F1 score\footnote{Formally, the F1 Score is the harmonic mean of the \emph{precision} and the \emph{recall}.  The  \emph{precision} is  the number of true positive results divided by the number of true positives plus the number of false positive. The \emph{recall} is the number of true positives divided by the number of true positives plus the number of false negatives.} of the four approaches.  The F1-score balances false-positives and false-negatives.  The best possible score is $1$ and the worst possible score is $0$.
 \begin{table}[h!]
     \begin{center}
-      \caption{F1-score for anomaly detection.}
+      \caption{F1-score for anomaly detection. }
       \label{tab:table2}
       \begin{tabular}{l|c} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
         \textbf{Reconstruction type} & \begin{minipage}{1in}\textbf{F1-score for anomaly detection}\end{minipage}\\
@@ -617,14 +648,20 @@ In this paper we present several different types of results.
     \end{center}
 \end{table}
 
-
+\todo[color = orange]{RCP: LS added a lot of words in the following paragraph to explain the figures.  It would be nice if RP checked this}
+\todo [ color = red]{RP: SHould we eliminate some subset of Fig 2-6 to save space?}
+\todo [ color = red] {RP: I took the number of anomalies you listed in the legend and divided by 2 because RPCA was applied to a single data set: the test set}
 In Figures~\ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_0.001000}, \ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_1.000000}, \ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_50.000000},
 \ref{fig:m_200_n_20_k_6_numAnoms_50_sizeAnoms_0.010000}, and
-\ref{fig:difficult RPCA} we show the performance of the RPCA algorithm across a variety of scenarios. 
+\ref{fig:difficult RPCA} we show the performance of the RPCA algorithm running alone across a variety of scenarios. 
 \todo{RCP:  Be sure to talk about the $\lambda$ values that are chosen for each figure.}
-Figure \ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_0.001000} show RPCA running in the presence of very small anomalies.   In this parameter range RPCA has difficulty detecting the anomalies since they are three orders of magnitude smaller than the ambient low-rank background. 
-Figure \ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_1.000000} shows RPCA running on data with a small number of anomalies of the same order of magnitude as the low-rank background.  In this parameter regime, the RPCA algorithm easily detects the anomalies.  Figure \ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_50.000000} shows some very large anomalies, and again the RPCA algorithm detects the easily.
-Figure \ref{fig:difficult RPCA} and \ref{fig:m_200_n_20_k_6_numAnoms_200_sizeAnoms_0.100000} show the limits of the RPCA algorithm in the presence of many anomalies.  
+Figure \ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_0.001000} shows the results of RPCA running alone in the presence of very small anomalies.   In this parameter range using RPCA alone has difficulty detecting the anomalies since they are three orders of magnitude smaller than the ambient low-rank background.  As a result, the flagged anomalies, displayed in the fourth graphic, are not displayed in the third graphic of true anomalies. This   indicates that there are many falsely detected anomalies.
+\todo [color = orange] {RP: LS thinks Figure 6 should be split into two (maybe four) figures and more words should be added to the rank part of the discussion in the text here}
+\todo [ color = red] {RCP:Fix reference error}
+Figure \ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_1.000000} shows RPCA running alone on data with a small number of anomalies of the same order of magnitude as the low-rank background.  By comparing the third and fourth graphics one sees that in this parameter regime, the RPCA algorithm alone can easily detect the true anomalies and has no false detections.  Figure \ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_50.000000} shows some very large anomalies, and again running the RPCA algorithm alone performs perfectly. Figure \ref {fig:m_200_n_20_k_6_numAnoms_50_sizeAnoms_0.010000} displays a hard example with many small anomalies yet running RPCA alone does a good job.
+ Figure \ref{fig:difficult RPCA} shows the limits of the RPCA algorithm in the presence of many anomalies.   On the left, the rank is computed correctly, but on the right the problem is so difficult that the rank is computed incorrectly as well.
+ 
+ \todo [color = orange] {Would be nice to clarify the rank discussion}
 
 % Insert Figures for three percent anomalies size 5
 
@@ -637,11 +674,11 @@ Figure \ref{fig:difficult RPCA} and \ref{fig:m_200_n_20_k_6_numAnoms_200_sizeAno
     % \centering
     % \includegraphics[width=.9\linewidth]{{images/new_7-26-2020/runRPCAAnomalyTest_singular_values_m_200_n_20_k_6_numAnoms_10_sizeAnoms_0.001000}.png}
     % \end{subfigure}
-    \caption{An easy example of RPCA with $10$ anomalies, each of size $50$.}
+    \caption{A difficult example of RPCA with $5$ anomalies  each of size $0.001$.}
     \label{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_0.001000}
 \end{figure}
 
-\todo{RCP: The labels for fig 5-8 should all be different.  Are they all needed: SHoudl we only included the hardest case it does well on and the simpliest one it doesn't poorly on?  Also, the blue and orange curves are incorrect (code error) and need legends and better titles.}
+\todo{RCP: The labels for fig 5-8 should all be different.  Are they all needed: SHoudl we only included the hardest case it does well on and the simplest one it doesn't poorly on?  Also, the blue and orange curves are incorrect (code error) and need legends and better titles.}
 
 \begin{figure}
     \begin{subfigure}{.45\textwidth}
@@ -652,7 +689,7 @@ Figure \ref{fig:difficult RPCA} and \ref{fig:m_200_n_20_k_6_numAnoms_200_sizeAno
     % \centering
     % \includegraphics[width=.9\linewidth]{{images/new_7-26-2020/runRPCAAnomalyTest_singular_values_m_200_n_20_k_6_numAnoms_10_sizeAnoms_1.000000}.png}
     % \end{subfigure}
-    \caption{An easy example of RPCA with $10$ anomalies, each of size $50$.}
+    \caption{An easy example of RPCA with $5$ anomalies each of size $1$.}
     \label{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_1.000000}
 \end{figure}
 
@@ -665,7 +702,7 @@ Figure \ref{fig:difficult RPCA} and \ref{fig:m_200_n_20_k_6_numAnoms_200_sizeAno
     % \centering
     % \includegraphics[width=.9\linewidth]{{images/new_7-26-2020/runRPCAAnomalyTest_singular_values_m_200_n_20_k_6_numAnoms_10_sizeAnoms_50.000000}.png}
     % \end{subfigure}
-    \caption{An easy example of RPCA with $10$ anomalies, each of size $50$.}
+    \caption{An easy example of RPCA with $5$ anomalies each of size $50$.}
     \label{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_50.000000}
 \end{figure}
 
@@ -678,7 +715,7 @@ Figure \ref{fig:difficult RPCA} and \ref{fig:m_200_n_20_k_6_numAnoms_200_sizeAno
     % \centering
     % \includegraphics[width=.9\linewidth]{{images/new_7-26-2020/runRPCAAnomalyTest_singular_values_m_200_n_20_k_6_numAnoms_50_sizeAnoms_0.010000}.png}
     % \end{subfigure}
-    \caption{A difficult example of RPCA with $50$ anomalies, each of size $0.01$.  Note, even with many anomalies RPCA does a good job.}
+    \caption{A difficult example of RPCA with $50$ anomalies, each of size $0.01$.  }
     \label{fig:m_200_n_20_k_6_numAnoms_50_sizeAnoms_0.010000}
 \end{figure}
 
@@ -702,60 +739,79 @@ Figure \ref{fig:difficult RPCA} and \ref{fig:m_200_n_20_k_6_numAnoms_200_sizeAno
     \includegraphics[width=.9\linewidth]{{images/new_7-26-2020/runRPCAAnomalyTest_singular_values_m_200_n_20_k_6_numAnoms_1000_sizeAnoms_1.000000}.png}
     \end{subfigure}
 
-    \caption{A difficult example of RPCA with $200$ anomalies, each of size $0.1$ on the left and $1000$ anomalies, each of size $1$ on the right.  On the left, the rank is computed correctly, but on the right the problem is so difficult that the rank is computed incorrectly as well.}
+    \caption{A difficult example of RPCA with $50$ anomalies  each of size $0.1$ on the left and $500$ anomalies, each of size $1$ on the right. }
     \label{fig:difficult RPCA}
 \end{figure*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-The key results of our work can be found in Figures \ref{fig:error_PCA_prediction_without_RPCA}, \ref{fig:error_PCA_prediction_with_RPCA_first}, \ref{fig:error_SPCA_prediction_without_RPCA_first}, \ref{fig:error_SPCA_prediction_without_RPCA_first_selected}, \ref{fig:error_SPCA_prediction_with_RPCA_first}, and \ref{fig:error_SPCA_prediction_with_RPCA_first_selected}.
-Figure \ref{fig:error_PCA_prediction_without_RPCA} shows a purely PCA based prediction.  Besides requiring all of the original predictors to compute, the anomalies in the training and testing data cause many errors in reconstruction.  
-Figure \ref{fig:error_PCA_prediction_with_RPCA_first} shows a purely SPCA based prediction.  Again, the anomalies in the testing data cause many errors in the reconstruction.
-Figures \ref{fig:error_SPCA_prediction_without_RPCA_first} and \ref{fig:error_SPCA_prediction_without_RPCA_first_selected} show a PCA prediction after an RPCA preprocessing.  While superior to the pure PCA reconstruction, anomalies in the testing data still cause substantial errors. 
-\todo[color=yellow]{LS: It seems that FIg 14 and 15 are the big achievement: Some in a quantitative form this should be summarized in the intro}
-Figures \ref{fig:error_SPCA_prediction_with_RPCA_first} and \ref{fig:error_SPCA_prediction_with_RPCA_first_selected} show an SPCA prediction after an RPCA preprocessing.  In this case both the low-rank background and the anomalies are exactly recovered, up to the error arising in the RPCA optimization.
+\todo [ color = orange] {RP: I would like a better understanding of these figures and then LS would be glad to add text to them, e.g. what was the experiment performed}
+The key results of our work can be found in Figures \ref{fig:error_PCA_prediction_without_RPCA} -  
+%\ref{fig:error_PCA_prediction_with_RPCA_first}, \ref{fig:error_SPCA_prediction_without_RPCA_first}, \ref{fig:error_SPCA_prediction_without_RPCA_first_selected}, \ref{fig:error_SPCA_prediction_with_RPCA_first}, and 
+\ref{fig:error_SPCA_prediction_with_RPCA_first_selected}.
+Figure \ref{fig:error_PCA_prediction_without_RPCA} shows a purely PCA based prediction.  Besides requiring all of the original predictors to compute, the anomalies in the training and testing data cause many errors in reconstruction in both the rows and the columns.  The errors in the columns are caused by anomalies in the training data set which are unknown to the PCA algorithm and therefore are induced into errors in the test data reconstruction.  The errors in the rows are caused be anomalies in the test data which are unknown to the PCA algorithm and therefore used to incorrectly reconstruct the test data.  These errors are unavoidable so in Figure \ref {fig:error_PCA_prediction_without_RPCA} those rows are not displayed in Figure \ref {fig:error_PCA_prediction_without_RPCA_selected}.
+\todo [ color = red] {RP: Delete figure 8 to save space?  Should we add another figure above Fig7 to show how the anomalies in the training data corrupts predictions in the test data.}
+Similarly, Figures \ref{fig:error_PCA_prediction_with_RPCA_first}  and  \ref {fig:error_PCA_prediction_with_RPCA_first_selected} shows how processing the training data with RPCA eliminates the reconstruction errors in some columns leaving only unavoidable reconstruction errors in rows of the test data with anomalies.   
+Figures \ref{fig:error_SPCA_prediction_without_RPCA_first} and \ref{fig:error_SPCA_prediction_without_RPCA_first_selected} show a SPCA prediction without PRCA processing.  Again, reconstruction errors are found in columns caused by anomalies in the training data and rows if there are anomalies in the training data metrics which were used.  Note that SPCA, unlike PCA, uses only some of the metrics in the test data for reconstruction, which are illustrated in green. The use of a subset reduces induced reconstruction errors.
+%after an RPCA preprocessing.  While superior to the pure PCA reconstruction, anomalies in the testing data still cause substantial errors. 
+\todo[color=yellow]{LS: It seems that Fig 14 and 15 are the big achievement: Some in a quantitative form this should be summarized in the intro}
+Finally, Figures \ref{fig:error_SPCA_prediction_with_RPCA_first} and \ref{fig:error_SPCA_prediction_with_RPCA_first_selected} show an SPCA prediction after an RPCA preprocessing.  In this case both the low-rank background and the anomalies are exactly recovered, up to the error arising in the RPCA optimization for the rows of the test data which do not use anomalous metrics (shown in green).
 
 \begin{figure}
     \centering
     \includegraphics[width=0.45\textwidth]{{images/new_7-26-2020/short_test_S_title_PCA_prediction_without_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
-    \caption{A PCA prediction without RPCA first.  Note that both columns and rows have noise.}
+    \caption{A PCA prediction without RPCA first. 
+    %Note that both columns and rows have noise.
+    }
     \label{fig:error_PCA_prediction_without_RPCA}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width=0.45\textwidth]{{images/new_7-26-2020/short_test_S_title_PCA_prediction_without_RPCA_first_selected_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
-    \caption{A PCA prediction without RPCA first.  Note that both columns and rows have noise. In this figure we emphasize the errors caused by training data by removing the rows with anomalies in the testing data.}
-    \label{fig:error_PCA_prediction_without_RPCA}
+    \caption{A PCA prediction without RPCA first.  
+    %Note that both columns and rows have noise. 
+    In this figure we emphasize the errors caused by test data  anomalies by removing those rows.
+    }
+  \label{fig:error_PCA_prediction_without_RPCA_selected}
 \end{figure}
 
 
 \begin{figure}
     \centering
     \includegraphics[width=0.45\textwidth]{{images/new_7-26-2020/short_test_S_title_PCA_prediction_with_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
-    \caption{A PCA prediction with RPCA first.  Note that only the rows have noise where there are anomalies in the testing data.}
+    \caption{A PCA prediction with RPCA first. 
+    %Note that only the rows have noise where there are anomalies in the testing data.
+    }
     \label{fig:error_PCA_prediction_with_RPCA_first}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width=0.45\textwidth]{{images/new_7-26-2020/short_test_S_title_PCA_prediction_with_RPCA_first_selected_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
-    \caption{A PCA prediction with RPCA first.  Note that only the rows have noise where there are anomalies in the testing data.  In this figure we emphasize the errors caused by training data by removing the rows with anomalies in the testing data.}
-    \label{fig:error_PCA_prediction_with_RPCA_first}
+    \caption{A PCA prediction with RPCA first. 
+    %Note that only the rows have noise where there are anomalies in the testing data.  
+    In this figure we emphasize the errors caused by training data by removing the rows with anomalies in the testing data.
+    }
+    \label{fig:error_PCA_prediction_with_RPCA_first_selected}
 \end{figure}
 
 
 \begin{figure}
     \centering
     \includegraphics[width=0.45\textwidth]{{images/new_7-26-2020/short_test_S_title_SPCA_prediction_without_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
-    \caption{An SPCA prediction without RPCA first.  Note that, similar to PCA without RPCA, both columns and rows are incorrect because of anomalies in the training data.}
+    \caption{An SPCA prediction without RPCA first.  
+    %Note that, similar to PCA without RPCA, both columns and rows are incorrect because of anomalies in the training data.
+    }
     \label{fig:error_SPCA_prediction_without_RPCA_first}
 \end{figure}
+
 
 \begin{figure}
     \centering
     \includegraphics[width=0.45\textwidth]{{images/new_7-26-2020/short_test_S_title_SPCA_prediction_without_RPCA_first_selected_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
-    \caption{An SPCA prediction without RPCA first.  Note that, similar to PCA without RPCA, both columns and rows are incorrect because of anomalies in the training data.  In this figure we emphasize the errors caused by training data by removing the rows with anomalies in the testing data.}
+    \caption{An SPCA prediction with RPCA first.  
+    %Note that, similar to PCA without RPCA, both columns and rows are incorrect because of anomalies in the training data.  
+    In this figure we emphasize the errors caused by training data by removing the rows with anomalies in the testing data.}
     \label{fig:error_SPCA_prediction_without_RPCA_first_selected}
 \end{figure}
 
@@ -764,7 +820,9 @@ Figures \ref{fig:error_SPCA_prediction_with_RPCA_first} and \ref{fig:error_SPCA_
 % \begin{subfigure}{.45\textwidth}
 %     \centering
 %     \includegraphics[width=0.9\textwidth]{{images/new_7-26-2020/short_test_S_title_SPCA_prediction_with_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
-%     \caption{An SPCA prediction without RPCA first.  Note that, similar to PCA with RPCA, both only rows are incorrect because of anomalies in the testing data.}
+%     \caption{An SPCA prediction without RPCA first.  
+%Note that, similar to PCA with RPCA, both only rows are incorrect because of anomalies in the testing data.
+%}
 %     \label{fig:error_SPCA_prediction_with_RPCA_first}
 % \end{subfigure}
 % \begin{subfigure}{.45\textwidth}
@@ -778,13 +836,15 @@ Figures \ref{fig:error_SPCA_prediction_with_RPCA_first} and \ref{fig:error_SPCA_
 \begin{figure}
     \centering
     \includegraphics[width=0.45\textwidth]{{images/new_7-26-2020/short_test_S_title_SPCA_prediction_with_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
-    \caption{An SPCA prediction without RPCA first.  Note that, similar to PCA with RPCA, both only rows are incorrect because of anomalies in the testing data.}
+    \caption{An SPCA prediction without RPCA first.  
+    %Note that, similar to PCA with RPCA, both only rows are incorrect because of anomalies in the testing data.
+    }
     \label{fig:error_SPCA_prediction_with_RPCA_first}
 \end{figure}
 \begin{figure}
     \centering
     \includegraphics[width=0.45\textwidth]{{images/new_7-26-2020/short_test_S_title_SPCA_prediction_with_RPCA_first_selected_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
-    \caption{An SPCA prediction without RPCA first.  Note that, similar to PCA with RPCA, both only rows are incorrect because of anomalies in the testing data.  In this figure we show that the anomalies are exactly recovered in by removing the rows with anomalies in the testing data.}
+    \caption{An SPCA prediction with RPCA first.  Note that, similar to PCA with RPCA, both only rows are incorrect because of anomalies in the testing data.  In this figure we show that the anomalies are exactly recovered in by removing the rows with anomalies in the testing data.}
     \label{fig:error_SPCA_prediction_with_RPCA_first_selected}
 \end{figure}
 
@@ -800,21 +860,54 @@ Figures \ref{fig:error_SPCA_prediction_with_RPCA_first} and \ref{fig:error_SPCA_
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Figure \ref{fig:real_data} shows the results of our methodologies running on real healthcare provided data.  As we do not know where the true anomalies, if any occur, we test our methodology by adding anomalies of our own.  We then tune $\lambda$ to the largest value for which these anomalies are detected in $S$.  As one may observe, our method exactly detects both our added anomalies as well as additional \emph{true} anomalies in the real-world data.
-\todo [ color = red]{RP, LS: MITRE ask: You assume or conclude that they are true anomalies, but you don't actually know that}
+Figures \ref{fig:real_data_rank} and \ref{fig:real_data_anomalie} show the results of our methodologies running on real healthcare provided data.  In Figure \ref{fig:real_data_rank} we see that the (approximate) rank of the real-world data is $10$.   Accordingly, one could imagine reaping the benefits of having access to all $34$ health-care metrics by just measuring $10$ healthcare metrics, with the commensurate saving the burden of data gathering.  In addition, as we do not know where the true anomalies, if any occur, we test our methodology by adding anomalies of our own.  We then tune $\lambda$ to the largest value for which these anomalies are detected in $S$.\footnote{Note, the real-world data we analyze here is noisier and smaller then RPCA is classically applied to.  However, note we observe that RPCA does provide useful insights into the data even in this domain even though we use different $\lambda$ values for rank and anomaly detection.} As one may observe, our method exactly detects  our added anomalies perfectly and, as such, makes the other detected anomalies, by way of their presence in the $S$ matrix, highly suspect and worthy of further investigation.   
+
+In Figure \ref {fig:real_data_anomalie}
+%{fig:real_data_rank} 
+we show anomalies in the real data.  Specifically, the columns of Figure \ref {fig:real_data_anomalie} can be translated to indicate that the following features had anomalies: 
+
+\begin{itemize}
+\item 
+%Column 16 corresponds to ACO40. This feature is in the GPRO (web reported measure) category and is specifically a measure for 
+“Depression Remission at 12 months”
+
+\item 
+%Column 4 corresponds to ACO17. This feature is in the GPRO (web reported measure) category and is specifically a measure for 
+GPRO: “Preventive Care and Screening”: Tobacco Use: Screening and Cessation Information”  %\footnote{This feature was actually anomalous \emph{twice} even in such a small data set and %hence is especially problematic.} -- Not true.  This was a Melanie transciption errror cf 29 Jul 2020 3:46 pm
+
+\item 
+%Column 24 corresponds to ACO7. This feature is in the CAHPS survey category a 
+CAHPS: "Health Status/Functional status"
+%“Preventive Care and Screening”: Tobacco Use: Screening and Cessation Information”
+%\todo [color = yellow]{Melanie needs to fix this: measures don't match listing earlier in %paper and columns are inconsistent DONE}
+\item 
+%Column 18 corresponds to  ACO1. This feature is in the CAHPS survey category and is specifically a measure for 
+“CAHPS: Getting Timely Care, Appointments and Information”
+
+\item 
+%Column 31 corresponds to ACO36. . This feature is in the EHR (in this case, a calculation made from claims data) category and is specifically a measure for 
+EHR: “All-Cause Unplanned Admissions for Patients with Diabetes”
+\end{itemize}
+
+Based on the data, these features should be avoided as required metrics.
+
+% Clearly based upon these results, it would be important to not measure....
+%\todo [ color = red]{LS:  Finish this up.  You can mention that the other columns are cleaner and perhaps better choices for measurement.  However, AC017 has multiple anomalies, and is therefore %not a good choice. DONE}
+
+%\todo [ color = red]{RP, LS: MITRE ask: You assume or conclude that they are true anomalies, but you don't actually know that DONE}
 
 \begin{figure*}
     \centering
     \includegraphics[width=0.8\textwidth]{images/new_7-26-2020/real_data_svd.png}
-    \caption{An example of RPCA analysis on real data. This example uses a large $\lambda=\frac{0.9}{\sqrt{max(m,n)}}$ to emphasize the low-rank structure. }
-    \label{fig:real_data}
+    \caption{An example of RPCA analysis on real data.  The blue curve corresponds to the singular values computed if PCA only were applied to the data.  The orange curve corresponds to the singular values computed after the RPCA processing.  This example uses a small $\lambda=\frac{0.9}{\sqrt{max(m,n)}}$ to emphasize the low-rank structure. }
+    \label{fig:real_data_rank}
 \end{figure*}
 
 \begin{figure*}
     \centering
     \includegraphics[width=0.8\textwidth]{images/new_7-26-2020/real_data.png}
     \caption{An example of RPCA analysis on real data.   We add anomalies of our own and choose the smallest $\lambda$ that recovers our added anomalies.  The entries in red circles are anomalies in the actual data. This example uses a large $\lambda=\frac{6.0}{\sqrt{max(m,n)}}$ to emphasize anomalies. }
-    \label{fig:real_data}
+    \label{fig:real_data_anomalie}
 \end{figure*}
 
 \todo[color=yellow]{LS:  What do we learn from fig 16 in terms of recommended policy?
@@ -1000,12 +1093,15 @@ This work presents a new research path to explore how modern optimization method
 
 In particular, empirical examples on synthetic data show our approach was the only method tested herein that found all possible anomalies with no false alarms and perfectly computed the required reduced number of metrics needed without appreciable loss of information. 
 
- \todo [ color = red]{RCP: MITRE ask: so how many metrics were you able to identify as redundant.  That seems to be the entire oint of the paer, but it isn't addressed directly}
+ \todo [ color = orange]{RCP: MITRE ask: so how many metrics were you able to identify as redundant.  That seems to be the entire oint of the paer, but it isn't addressed directly DONE but maybe we should revist}
 
 \todo[color=yellow]{LS: Conclusions: I think we should be more assertive: We developed empirical evidence that using new modern optimization methods can be effective at complementing }
 
 \section{Acknowledgment}
 The authors wish to thank Dr. Allen Leavens, (MITRE) for introducing us to the challenges of health reporting burdens as well as the introducing us to the Center for Medicare and Medicaid Services (CMS)'s public use dataset related to the Shared Saving Program Accountable Care Organization (ACO).  
+
+Approved for Public Release. Distribution Unlimited. Case Number 20-1958.$\copyright$ 2020 The MITRE Corporation. All Rights Reserved.
+
 
 \clearpage
 
