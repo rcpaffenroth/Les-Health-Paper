@@ -273,7 +273,7 @@ As opposed to PCA, in which the principal components are generally linear combin
 \todo [color = red]{RP: need to deal with fact we are using the variable two different ways: as a selector matrix and as a matrix of anomolies}
 Consider $S$ as a selection matrix with $S \in \{0,1\}^{n \times K}$ and every column of $S$ has precisely a single entry of $1$ and every row of $S$ has at most a single entry of $1$.
 For example, when the matrix S is set to
-
+\todo{$S$  here is SUPER BAD notation}
 $$
 S = 
 \begin{bmatrix}
@@ -767,11 +767,12 @@ Finally, Figures \ref{fig:error_SPCA_prediction_with_RPCA_first} and \ref{fig:er
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.45\textwidth]{{images/new_7-26-2020/short_test_S_title_PCA_prediction_without_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
-    \caption{A PCA prediction without RPCA first. 
-    %Note that both columns and rows have noise.
-    }
-    \label{fig:error_PCA_prediction_without_RPCA}
+    \includegraphics[width=0.24\textwidth]{{images/new_8-5-2020/short_test_S_title_PCA_prediction_without_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_left}.png}
+    \includegraphics[width=0.24\textwidth]{{images/new_8-5-2020/short_test_S_title_PCA_prediction_without_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_right}.png}
+\caption{A PCA prediction without RPCA first. 
+%Note that both columns and rows have noise.
+}
+\label{fig:error_PCA_prediction_without_RPCA}
 \end{figure}
 
 % \begin{figure}
@@ -806,21 +807,17 @@ Finally, Figures \ref{fig:error_SPCA_prediction_with_RPCA_first} and \ref{fig:er
 
 
 \begin{figure}
-\begin{subfigure}{0.5\textwidth}
-    \centering
-    \includegraphics[width=1.0\textwidth]{{images/new_7-26-2020/short_test_S_title_SPCA_prediction_without_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
-    \label{fig:error_SPCA_prediction_without_RPCA_first}
-\end{subfigure}
-\begin{subfigure}{0.5\textwidth}
-    \centering
-    \includegraphics[width=1.0\textwidth]{{images/new_7-26-2020/short_test_S_title_SPCA_prediction_without_RPCA_first_selected_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
-    \label{fig:error_SPCA_prediction_without_RPCA_first_selected}
-\end{subfigure}
-    \caption{An SPCA prediction without RPCA first.  
-    %Note that, similar to PCA without RPCA, both columns and rows are incorrect because of anomalies in the training data.
-    An SPCA prediction with RPCA first.  
-    %Note that, similar to PCA without RPCA, both columns and rows are incorrect because of anomalies in the training data.  
-    In this figure we emphasize the errors caused by training data by removing the rows with anomalies in the testing data.}
+\centering
+\includegraphics[width=0.24\textwidth]{{images/new_8-5-2020/short_test_S_title_SPCA_prediction_without_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_left}.png}
+\includegraphics[width=0.24\textwidth]{{images/new_8-5-2020/short_test_S_title_SPCA_prediction_without_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_right}.png}
+%\includegraphics[width=0.24\textwidth]{{images/new_8-5-2020/short_test_S_title_SPCA_prediction_without_RPCA_first_selected_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_left}.png}
+\includegraphics[width=0.24\textwidth]{{images/new_8-5-2020/short_test_S_title_SPCA_prediction_without_RPCA_first_selected_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_right}.png}
+\label{fig:error_SPCA_prediction_without_RPCA_first_selected}
+\caption{An SPCA prediction without RPCA first.  
+%Note that, similar to PCA without RPCA, both columns and rows are incorrect because of anomalies in the training data.
+An SPCA prediction with RPCA first.  
+%Note that, similar to PCA without RPCA, both columns and rows are incorrect because of anomalies in the training data.  
+In this figure we emphasize the errors caused by training data by removing the rows with anomalies in the testing data.}
 \end{figure}
 
 
@@ -842,19 +839,15 @@ Finally, Figures \ref{fig:error_SPCA_prediction_with_RPCA_first} and \ref{fig:er
 % \end{figure*}
 
 \begin{figure}
-\begin{subfigure}{0.5\textwidth}
-    \centering
-    \includegraphics[width=1.0\textwidth]{{images/new_7-26-2020/short_test_S_title_SPCA_prediction_with_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
-    \label{fig:error_SPCA_prediction_with_RPCA_first}
-\end{subfigure}
-\begin{subfigure}{0.5\textwidth}
-    \centering
-    \includegraphics[width=1.0\textwidth]{{images/new_7-26-2020/short_test_S_title_SPCA_prediction_with_RPCA_first_selected_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000}.png}
-    \label{fig:error_SPCA_prediction_with_RPCA_first_selected}
-\end{subfigure}
-    \caption{An SPCA prediction without RPCA first.  
-    %Note that, similar to PCA with RPCA, both only rows are incorrect because of anomalies in the testing data.
-    An SPCA prediction with RPCA first.  Note that, similar to PCA with RPCA, both only rows are incorrect because of anomalies in the testing data.  In this figure we show that the anomalies are exactly recovered in by removing the rows with anomalies in the testing data.}
+\centering
+\includegraphics[width=0.24\textwidth]{{images/new_8-5-2020/short_test_S_title_SPCA_prediction_with_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_left}.png}
+\includegraphics[width=0.24\textwidth]{{images/new_8-5-2020/short_test_S_title_SPCA_prediction_with_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_right}.png}
+%\includegraphics[width=0.24\textwidth]{{images/new_8-5-2020/short_test_S_title_SPCA_prediction_with_RPCA_first_selected_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_left}.png}
+\includegraphics[width=0.24\textwidth]{{images/new_8-5-2020/short_test_S_title_SPCA_prediction_with_RPCA_first_selected_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_right}.png}
+\label{fig:error_SPCA_prediction_with_RPCA_first_selected}
+\caption{An SPCA prediction without RPCA first.  
+%Note that, similar to PCA with RPCA, both only rows are incorrect because of anomalies in the testing data.
+An SPCA prediction with RPCA first.  Note that, similar to PCA with RPCA, both only rows are incorrect because of anomalies in the testing data.  In this figure we show that the anomalies are exactly recovered in by removing the rows with anomalies in the testing data.}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
