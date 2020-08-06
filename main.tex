@@ -14,7 +14,7 @@
 %\usepackage[hyphenbreaks]{breakurl}
 \usepackage[hyphens]{url}
 % \usepackage[subtle]{savetrees}
-\renewcommand{\baselinestretch}{0.94}
+\renewcommand{\baselinestretch}{0.88}
 
 %\graphicspath{ {c:/Users/mjutras/TeXworks/images/} }
 \graphicspath{ {images/} }
@@ -114,12 +114,9 @@ make a whole lot of sense to me. As such, the point you are trying to make
 is not well served.}
 
 
-Figures \ref{fig:error_PCA_prediction_without_RPCA},
-\ref{fig:error_PCA_prediction_without_RPCA_selected},
-\ref{fig:error_PCA_prediction_with_RPCA_first},
-\ref{fig:error_PCA_prediction_with_RPCA_first_selected},
-\ref{fig:error_SPCA_prediction_without_RPCA_first}, and \ref{fig:error_SPCA_prediction_without_RPCA_first_selected} competing methods either mis-detect the anomalies, incorrectly predict the non-anomalous entries, or get the required number of required metrics incorrect.
-As shown in Figures \ref{fig:error_SPCA_prediction_with_RPCA_first} and \ref{fig:error_SPCA_prediction_with_RPCA_first_selected} our method can be seen to be the only method that accomplishes all three tasks (anomaly detection, correctly computing the number of required metrics, and reconstructing the complete data set).
+Figures \ref{fig:error_PCA_prediction_without_RPCA} and
+\ref{fig:error_SPCA_prediction_without_RPCA_first_selected} demonstrate that competing methods either mis-detect the anomalies, incorrectly predict the non-anomalous entries, or get the required number of required metrics incorrect.
+As shown in Figure \ref{fig:error_SPCA_prediction_with_RPCA_first_selected} our method can be seen to be the only method that accomplishes all three tasks (anomaly detection, correctly computing the number of required metrics, and reconstructing the complete data set).
 \todo{RCP: Mention real data set here one real data metrics are done.}
 %\todo[inline, color = yellow] {What do we do with this reference to newPaper?  RCP DONE!  I used my original RPCA paper and our arxiv.org paper.   If, however, you mean the upcoming that has not even been started yet, I don't think that we can cite it. }
 \todo{RCP:  Make punchier and more quantitative, e.g. "In particular, empirical examples show it found XX more anomalies, and led to XX better MSE in reconstructing original dataset. RCP needs to write some code and redo some runs to get MSE numbers}
@@ -270,12 +267,10 @@ Accordingly, we require a version of PCA which is robust to these types of measu
 As opposed to PCA, in which the principal components are generally linear combinations of all of the predictors, one can instead consider Sparse PCA \cite{htf01} in which individual predictors are chosen to reconstruct the rest. Below we argue that  if $X$ is exactly of rank $k$ then any $k$ columns of $X$ can be used to exactly reconstruct the remaining $n-k$ columns of $X$.
 
 % TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD.TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD.TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD TBD.
-\todo [color = red]{RP: need to deal with fact we are using the variable two different ways: as a selector matrix and as a matrix of anomolies}
-Consider $S$ as a selection matrix with $S \in \{0,1\}^{n \times K}$ and every column of $S$ has precisely a single entry of $1$ and every row of $S$ has at most a single entry of $1$.
-For example, when the matrix S is set to
-\todo{$S$  here is SUPER BAD notation}
+Consider $\mathfrak{S}$ as a selection matrix with $\mathfrak{S} \in \{0,1\}^{n \times K}$ and every column of $\mathfrak{S}$ has precisely a single entry of $1$ and every row of $S$ has at most a single entry of $1$.
+For example, when the matrix $\mathfrak{S}$ is set to
 $$
-S = 
+\mathfrak{S} = 
 \begin{bmatrix}
 1 & 0 & 0 \\
 0 & 0 & 0 \\
@@ -289,14 +284,14 @@ $$
 and
 $$X_K = X S$$
 \noindent
-then S  selects in $X_K$ the $1$-st, $3$-rd and $4$-th column of an $X$ that originally had $6$ columns.
+then $\mathfrak{S}$  selects in $X_K$ the $1$-st, $3$-rd and $4$-th column of an $X$ that originally had $6$ columns.
 
 
 More generally, if we're to estimate $X$ from $X_K$ we would need two properties.
-First, our estimate $\hat{X}$ of $X$ should have the property that it agrees with $X$ on $S$, in other words there is some $Z$ such that
+First, our estimate $\hat{X}$ of $X$ should have the property that it agrees with $X$ on $\mathfrak{S}$, in other words there is some $Z$ such that
 \todo [ color = red]{What is the interpretation of S S^T and Z }
 $$
-\hat{X} = X S S^T + Z (I-S S^T) = X_K S^T + Z (I-S S^T)
+\hat{X} = X \mathfrak{S} \mathfrak{S}^T + Z (I-\mathfrak{S} \mathfrak{S}^T) = X_K \mathfrak{S}^T + Z (I-\mathfrak{S} \mathfrak{S}^T)
 $$
 
 Second, our estimate $\hat{X}$ must lay on the subspace spanned by singular vectors of $X$.  Equivalently, we need that
@@ -310,11 +305,11 @@ Plugging the first into the second we get
 \todo [ color = red] { I would defer to you on this but I suggest putting in the first equation below and then write that this implies Z = kjljlkjlkj (and delete the intermediate equations.  This equation can there be used in Algorithm 3 and ALgorithm 4}
 
 $$
-X_K S^T + Z (I-S S^T) = (X_K S^T + Z (I-S S^T)) V V^T 
+X_K \mathfrak{S}^T + Z (I-\mathfrak{S} \mathfrak{S}^T) = (X_K \mathfrak{S}^T + Z (I-\mathfrak{S} \mathfrak{S}^T)) V V^T 
 $$
-which implies $Z$ can be expressed \emph{only}  on $X_K$,i.e.,
+which implies $Z$ can be expressed \emph{only} depends on $X_K$,i.e.,
 
-$$Z= X_K \bigg(S^T - S^T V V^T\bigg) \bigg((I-S S^T)V V^T - (I-S S^T)\bigg)^{-1}.$$ 
+$$Z= X_K \bigg(\mathfrak{S}^T - \mathfrak{S}^T V V^T\bigg) \bigg((I-\mathfrak{S} \mathfrak{S}^T)V V^T - (I-\mathfrak{S} \mathfrak{S}^T)\bigg)^{-1}.$$ 
 %Delete?expanding we get 
 %
 %
@@ -551,14 +546,14 @@ The pure SPCA approach makes an initial selection of $k$ metrics and selects $k$
 \caption{SPCA prediction}\label{alg:spca prediction}
 \begin{algorithmic}[1]
 \Procedure{SPCA prediction}{$X_{train}, X_{test}$}
-\State Make a selection matrix $S_{sel}$
-\State Select $k$ columns of $X_{train}$ to get $X_k = X_{train} S_{sel}$
+\State Make a selection matrix $\mathfrak{S}_{sel}$
+\State Select $k$ columns of $X_{train}$ to get $X_k = X_{train} \mathfrak{S}_{sel}$
 \State Perform PCA to get $U \Sigma V^T = SVD(X_k)$
 %new
-\State Set $Z = X_k (S_{sel}^T - S_{sel}^T V V^T)  ((I-S_{sel} S_{sel}^T)V V^T - (I-S_{sel} S_{sel}^T))^{-1}$
+\State Set $Z = X_k (\mathfrak{S}_{sel}^T - \mathfrak{S}_{sel}^T V V^T)  ((I-\mathfrak{S}_{sel} \mathfrak{S}_{sel}^T)V V^T - (I-\mathfrak{S}_{sel} \mathfrak{S}_{sel}^T))^{-1}$
 %end of new
-%\State Solve for $Z$ using $X_k (S_{sel}^T - S_{sel}^T V V^T) = Z ((I-S_{sel} S_{sel}^T)V V^T - (I-S_{sel} S_{sel}^T))$.
-\State Project $X_{test}$ as $L_{test} = X_{test} S_{sel} S_{sel}^T + Z (I-S_{sel} S_{sel}^T)$.
+%\State Solve for $Z$ using $X_k (\mathfrak{S}_{sel}^T - \mathfrak{S}_{sel}^T V V^T) = Z ((I-\mathfrak{S}_{sel} \mathfrak{S}_{sel}^T)V V^T - (I-\mathfrak{S}_{sel} \mathfrak{S}_{sel}^T))$.
+\State Project $X_{test}$ as $L_{test} = X_{test} \mathfrak{S}_{sel} \mathfrak{S}_{sel}^T + Z (I-\mathfrak{S}_{sel} \mathfrak{S}_{sel}^T)$.
 \State Anomalies are $S_{test} = X_{test} - L_{test}$
 \State \textbf{return} $L_{test}$, $S_{test}$
 \EndProcedure
@@ -593,11 +588,11 @@ In a manner similar to the  PCA with RPCA preprocessing approach, this approach 
 \begin{algorithmic}[1]
 \Procedure{SPCA prediction}{$X_{train}, X_{test}$}
 \State Perform RPCA to get $L_{train}, S_{train} = RPCA(X_{train})$
-\State Make a selection matrix $S_{sel}$
-\State Select $k$ columns of $L_{train}$ to get $L_k = L_{train} S_{sel}$
+\State Make a selection matrix $\mathfrak{S}_{sel}$
+\State Select $k$ columns of $L_{train}$ to get $L_k = L_{train} \mathfrak{S}_{sel}$
 \State Perform PCA to get $U \Sigma V^T = SVD(L_k)$
-\State Solve for $Z$ using $L_k (S_{sel}^T - S_{sel}^T V V^T) = Z ((I-S_{sel} S_{sel}^T)V V^T - (I-S_{sel} S_{sel}^T))$.
-\State Project $X_{test}$ as $L_{test} = X_test S_{sel} S_{sel}^T + Z (I-S_{sel} S_{sel}^T)$.
+\State Solve for $Z$ using $L_k (\mathfrak{S}_{sel}^T - \mathfrak{S}_{sel}^T V V^T) = Z ((I-\mathfrak{S}_{sel} \mathfrak{S}_{sel}^T)V V^T - (I-\mathfrak{S}_{sel} \mathfrak{S}_{sel}^T))$.
+\State Project $X_{test}$ as $L_{test} = X_test \mathfrak{S}_{sel} \mathfrak{S}_{sel}^T + Z (I-\mathfrak{S}_{sel} \mathfrak{S}_{sel}^T)$.
 \State Anomalies are $S_{test} = X_{test} - L_{test}$
 \State \textbf{return} $L_{test}$, $S_{test}$
 \EndProcedure
@@ -620,6 +615,7 @@ In a manner similar to the  PCA with RPCA preprocessing approach, this approach 
 
 \section{Results}
 \todo [ color = orange] {RP: LS asks: Does the rank estimate refer to the case of no anomalies or the case of anomalies?}
+\todo{Need to talk about training and testing setup better.}
 %\todo [ color = red]{ RP: MITRE ask: He doesn't like the "??"in the table. LS changed to na.  RP: OK?}
 The following results demonstrate a comparison of traditional methods and Robust Principal Components Analysis performed on synthetic data with noise and varying amounts and sizes of anomalies added.  The plots reveal that RPCA is able to detect the true rank of the data (which was created to be of rank-6), while PCA has trouble detecting the rank as it is thrown off by the noise and outliers.  Additional evidence is provided in the confusion matrix plots which show a significantly better False Positive rate using the RPCA method.
 \todo{RCP: Should state why it is useful that we are getting the true rank. btw, is this causing the confusion matrix to be better or is it also true that the confusion matrix is better}
@@ -660,15 +656,16 @@ Table \ref{tab:table2} compares the F1 score\footnote{Formally, the F1 Score is 
 \todo[color = orange]{RCP: LS added a lot of words in the following paragraph to explain the figures.  It would be nice if RP checked this}
 \todo [ color = red]{RP: SHould we eliminate some subset of Fig 2-6 to save space?}
 \todo [ color = red] {RP: I took the number of anomalies you listed in the legend and divided by 2 because RPCA was applied to a single data set: the test set}
-In Figures~\ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_0.001000}, \ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_1.000000}, \ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_50.000000},
-\ref{fig:m_200_n_20_k_6_numAnoms_50_sizeAnoms_0.010000}, and
+In Figures~\ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_0.001000}, \ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_1.000000}, and
 \ref{fig:difficult RPCA} we show the performance of the RPCA algorithm running alone across a variety of scenarios. 
 \todo{RCP:  Be sure to talk about the $\lambda$ values that are chosen for each figure.}
 Figure \ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_0.001000} shows the results of RPCA running alone in the presence of very small anomalies.   In this parameter range using RPCA alone has difficulty detecting the anomalies since they are three orders of magnitude smaller than the ambient low-rank background.  As a result, the flagged anomalies, displayed in the fourth graphic, are not displayed in the third graphic of true anomalies. This   indicates that there are many falsely detected anomalies.
 \todo [color = orange] {RP: LS thinks Figure 6 should be split into two (maybe four) figures and more words should be added to the rank part of the discussion in the text here}
 \todo [ color = red] {RCP:Fix reference error}
-Figure \ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_1.000000} shows RPCA running alone on data with a small number of anomalies of the same order of magnitude as the low-rank background.  By comparing the third and fourth graphics one sees that in this parameter regime, the RPCA algorithm alone can easily detect the true anomalies and has no false detections.  Figure \ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_50.000000} shows some very large anomalies, and again running the RPCA algorithm alone performs perfectly. Figure \ref {fig:m_200_n_20_k_6_numAnoms_50_sizeAnoms_0.010000} displays a hard example with many small anomalies yet running RPCA alone does a good job.
- Figure \ref{fig:difficult RPCA} shows the limits of the RPCA algorithm in the presence of many anomalies.   On the left, the rank is computed correctly, but on the right the problem is so difficult that the rank is computed incorrectly as well.
+Figure \ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_1.000000} shows RPCA running alone on data with a small number of anomalies of the same order of magnitude as the low-rank background.  By comparing the third and fourth graphics one sees that in this parameter regime, the RPCA algorithm alone can easily detect the true anomalies and has no false detections.  
+% Figure \ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_50.000000} shows some very large anomalies, and again running the RPCA algorithm alone performs perfectly. 
+% Figure \ref {fig:m_200_n_20_k_6_numAnoms_50_sizeAnoms_0.010000} displays a hard example with many small anomalies yet running RPCA alone does a good job.
+Figure \ref{fig:difficult RPCA} shows the limits of the RPCA algorithm in the presence of many anomalies.   On the left, the rank is computed correctly, but on the right the problem is so difficult that the rank is computed incorrectly as well.
  
  \todo [color = orange] {Would be nice to clarify the rank discussion}
 
@@ -757,19 +754,21 @@ Figure \ref{fig:m_200_n_20_k_6_numAnoms_10_sizeAnoms_1.000000} shows RPCA runnin
 The key results of our work can be found in Figures \ref{fig:error_PCA_prediction_without_RPCA} -  
 %\ref{fig:error_PCA_prediction_with_RPCA_first}, \ref{fig:error_SPCA_prediction_without_RPCA_first}, \ref{fig:error_SPCA_prediction_without_RPCA_first_selected}, \ref{fig:error_SPCA_prediction_with_RPCA_first}, and 
 \ref{fig:error_SPCA_prediction_with_RPCA_first_selected}.
-Figure \ref{fig:error_PCA_prediction_without_RPCA} shows a purely PCA based prediction.  Besides requiring all of the original predictors to compute, the anomalies in the training and testing data cause many errors in reconstruction in both the rows and the columns.  The errors in the columns are caused by anomalies in the training data set which are unknown to the PCA algorithm and therefore are induced into errors in the test data reconstruction.  The errors in the rows are caused be anomalies in the test data which are unknown to the PCA algorithm and therefore used to incorrectly reconstruct the test data.  These errors are unavoidable so in Figure \ref {fig:error_PCA_prediction_without_RPCA} those rows are not displayed in Figure \ref {fig:error_PCA_prediction_without_RPCA_selected}.
-\todo [ color = red] {RP: Delete figure 8 to save space?  Should we add another figure above Fig7 to show how the anomalies in the training data corrupts predictions in the test data.}
-Similarly, Figures \ref{fig:error_PCA_prediction_with_RPCA_first}  and  \ref {fig:error_PCA_prediction_with_RPCA_first_selected} shows how processing the training data with RPCA eliminates the reconstruction errors in some columns leaving only unavoidable reconstruction errors in rows of the test data with anomalies.   
-Figures \ref{fig:error_SPCA_prediction_without_RPCA_first} and \ref{fig:error_SPCA_prediction_without_RPCA_first_selected} show a SPCA prediction without PRCA processing.  Again, reconstruction errors are found in columns caused by anomalies in the training data and rows if there are anomalies in the training data metrics which were used.  Note that SPCA, unlike PCA, uses only some of the metrics in the test data for reconstruction, which are illustrated in green. The use of a subset reduces induced reconstruction errors.
+Figure \ref{fig:error_PCA_prediction_without_RPCA} shows a purely PCA based prediction.  Besides requiring all of the original predictors to compute, the anomalies in the training and testing data cause many errors in reconstruction in both the rows and the columns.  The errors in the columns are caused by anomalies in the training data set which are unknown to the PCA algorithm and therefore are induced into errors in the test data reconstruction.  The errors in the rows are caused be anomalies in the test data which are unknown to the PCA algorithm and therefore used to incorrectly reconstruct the test data.  %These errors are unavoidable so in Figure \ref {fig:error_PCA_prediction_without_RPCA} those rows are not displayed in Figure \ref {fig:error_PCA_prediction_without_RPCA_selected}.
+%\todo [ color = red] {RP: Delete figure 8 to save space?  Should we add another figure above Fig7 to show how the anomalies in the training data corrupts predictions in the test data.}
+% Similarly, Figures \ref{fig:error_PCA_prediction_with_RPCA_first}  and  \ref {fig:error_PCA_prediction_with_RPCA_first_selected} shows how processing the training data with RPCA eliminates the reconstruction errors in some columns leaving only unavoidable reconstruction errors in rows of the test data with anomalies.   
+
+Figure \ref{fig:error_SPCA_prediction_without_RPCA_first_selected} shows a SPCA prediction without PRCA processing.  Again, reconstruction errors are found in columns caused by anomalies in the training data and rows if there are anomalies in the training data metrics which were used.  Note that SPCA, unlike PCA, uses only some of the metrics in the test data for reconstruction, which are illustrated in green. The use of a subset reduces induced reconstruction errors.
 %after an RPCA preprocessing.  While superior to the pure PCA reconstruction, anomalies in the testing data still cause substantial errors. 
-\todo[color=yellow]{LS: It seems that Fig 14 and 15 are the big achievement: Some in a quantitative form this should be summarized in the intro}
-Finally, Figures \ref{fig:error_SPCA_prediction_with_RPCA_first} and \ref{fig:error_SPCA_prediction_with_RPCA_first_selected} show an SPCA prediction after an RPCA preprocessing.  In this case both the low-rank background and the anomalies are exactly recovered, up to the error arising in the RPCA optimization for the rows of the test data which do not use anomalous metrics (shown in green).
+%\todo[color=yellow]{LS: It seems that Fig 14 and 15 are the big achievement: Some in a quantitative form this should be summarized in the intro}
+Finally, Figure \ref{fig:error_SPCA_prediction_with_RPCA_first_selected} shows an SPCA prediction after an RPCA preprocessing.  In this case both the low-rank background and the anomalies are exactly recovered, up to the error arising in the RPCA optimization, for the rows of the test data which do not use anomalous metrics (shown in green).
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.24\textwidth]{{images/new_8-5-2020/short_test_S_title_PCA_prediction_without_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_left}.png}
-    \includegraphics[width=0.24\textwidth]{{images/new_8-5-2020/short_test_S_title_PCA_prediction_without_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_right}.png}
-\caption{A PCA prediction without RPCA first. 
+    \includegraphics[width=0.24\textwidth]{{images/new_8-6-2020/short_test_S_title_PCA_prediction_without_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_train}.png}
+    \includegraphics[width=0.24\textwidth]{{images/new_8-6-2020/short_test_S_title_PCA_prediction_without_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_left}.png}\\
+    \includegraphics[width=0.24\textwidth]{{images/new_8-6-2020/short_test_S_title_PCA_prediction_without_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_right}.png}
+\caption{A PCA prediction without RPCA first.  The top left shows the anomalies in the training data, and the top right shows the anomalies in the testing data.  The errors in the bottom are a function of both types of errors, with errors in whole rows arising from the errors in the testing data.
 %Note that both columns and rows have noise.
 }
 \label{fig:error_PCA_prediction_without_RPCA}
@@ -808,16 +807,14 @@ Finally, Figures \ref{fig:error_SPCA_prediction_with_RPCA_first} and \ref{fig:er
 
 \begin{figure}
 \centering
-\includegraphics[width=0.24\textwidth]{{images/new_8-5-2020/short_test_S_title_SPCA_prediction_without_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_left}.png}
-\includegraphics[width=0.24\textwidth]{{images/new_8-5-2020/short_test_S_title_SPCA_prediction_without_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_right}.png}
+\includegraphics[width=0.24\textwidth]{{images/new_8-6-2020/short_test_S_title_SPCA_prediction_without_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_train}.png}
+\includegraphics[width=0.24\textwidth]{{images/new_8-6-2020/short_test_S_title_SPCA_prediction_without_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_left}.png}
+\includegraphics[width=0.24\textwidth]{{images/new_8-6-2020/short_test_S_title_SPCA_prediction_without_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_right}.png}
 %\includegraphics[width=0.24\textwidth]{{images/new_8-5-2020/short_test_S_title_SPCA_prediction_without_RPCA_first_selected_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_left}.png}
-\includegraphics[width=0.24\textwidth]{{images/new_8-5-2020/short_test_S_title_SPCA_prediction_without_RPCA_first_selected_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_right}.png}
-\label{fig:error_SPCA_prediction_without_RPCA_first_selected}
+\includegraphics[width=0.24\textwidth]{{images/new_8-6-2020/short_test_S_title_SPCA_prediction_without_RPCA_first_selected_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_right}.png}
 \caption{An SPCA prediction without RPCA first.  
-%Note that, similar to PCA without RPCA, both columns and rows are incorrect because of anomalies in the training data.
-An SPCA prediction with RPCA first.  
-%Note that, similar to PCA without RPCA, both columns and rows are incorrect because of anomalies in the training data.  
-In this figure we emphasize the errors caused by training data by removing the rows with anomalies in the testing data.}
+The top left shows the anomalies in the training data, and the top right shows the anomalies in the testing data.  The green columns are those columns that are used to reconstruct the rest.  The bottom two figures show the errors in the reconstruction. As there is an anomaly in the green columns in the training data, that one anomaly leads to inaccuracies in many predictions in the testing data, which we emphasize in the bottom right figure by removing the rows which have error arising from anomalies in the testing data.}
+\label{fig:error_SPCA_prediction_without_RPCA_first_selected}
 \end{figure}
 
 
@@ -840,14 +837,15 @@ In this figure we emphasize the errors caused by training data by removing the r
 
 \begin{figure}
 \centering
-\includegraphics[width=0.24\textwidth]{{images/new_8-5-2020/short_test_S_title_SPCA_prediction_with_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_left}.png}
-\includegraphics[width=0.24\textwidth]{{images/new_8-5-2020/short_test_S_title_SPCA_prediction_with_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_right}.png}
+\includegraphics[width=0.24\textwidth]{{images/new_8-6-2020/short_test_S_title_SPCA_prediction_with_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_train}.png}
+\includegraphics[width=0.24\textwidth]{{images/new_8-6-2020/short_test_S_title_SPCA_prediction_with_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_left}.png}
+\includegraphics[width=0.24\textwidth]{{images/new_8-6-2020/short_test_S_title_SPCA_prediction_with_RPCA_first_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_right}.png}
 %\includegraphics[width=0.24\textwidth]{{images/new_8-5-2020/short_test_S_title_SPCA_prediction_with_RPCA_first_selected_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_left}.png}
-\includegraphics[width=0.24\textwidth]{{images/new_8-5-2020/short_test_S_title_SPCA_prediction_with_RPCA_first_selected_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_right}.png}
-\label{fig:error_SPCA_prediction_with_RPCA_first_selected}
+\includegraphics[width=0.24\textwidth]{{images/new_8-6-2020/short_test_S_title_SPCA_prediction_with_RPCA_first_selected_m_200_n_20_k_6_noiseSize_0.000000_numAnoms_10_sizeAnoms_1.000000_right}.png}
 \caption{An SPCA prediction without RPCA first.  
 %Note that, similar to PCA with RPCA, both only rows are incorrect because of anomalies in the testing data.
-An SPCA prediction with RPCA first.  Note that, similar to PCA with RPCA, both only rows are incorrect because of anomalies in the testing data.  In this figure we show that the anomalies are exactly recovered in by removing the rows with anomalies in the testing data.}
+Similar to Figure \ref{fig:error_SPCA_prediction_without_RPCA_first_selected} the top left shows the anomalies in the training data, and the top right shows the anomalies in the testing data.  However, because of our use of RPCA \emph{we are able to choose columns with no anomalies} to train our SPCA algorithm.  Accordingly, in the bottom two figures errors only appear when there are anomalies in the testing data and the rest of the testing data is perfectly recovered.}
+\label{fig:error_SPCA_prediction_with_RPCA_first_selected}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -861,11 +859,11 @@ An SPCA prediction with RPCA first.  Note that, similar to PCA with RPCA, both o
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Figures \ref{fig:real_data_rank} and \ref{fig:real_data_anomalie} show the results of our methodologies running on real healthcare provided data.  In Figure \ref{fig:real_data_rank} we see that the (approximate) rank of the real-world data is $10$.   Accordingly, one could imagine reaping the benefits of having access to all $34$ health-care metrics by just measuring $10$ healthcare metrics, with the commensurate saving the burden of data gathering.  In addition, as we do not know where the true anomalies, if any occur, we test our methodology by adding anomalies of our own.  We then tune $\lambda$ to the largest value for which these anomalies are detected in $S$.\footnote{Note, the real-world data we analyze here is noisier and smaller then RPCA is classically applied to.  However, note we observe that RPCA does provide useful insights into the data even in this domain even though we use different $\lambda$ values for rank and anomaly detection.} As one may observe, our method exactly detects  our added anomalies perfectly and, as such, makes the other detected anomalies, by way of their presence in the $S$ matrix, highly suspect and worthy of further investigation.   
+Figures \ref{fig:real_data} shows the results of our methodologies running on real healthcare provided data.  In the left of Figure \ref{fig:real_data} we see that the (approximate) rank of the real-world data is $10$.   Accordingly, one could imagine reaping the benefits of having access to all $34$ health-care metrics by just measuring $10$ healthcare metrics, with the commensurate saving the burden of data gathering.  In addition, as we do not know where the true anomalies, if any occur, we test our methodology by adding anomalies of our own.  We then tune $\lambda$ to the largest value for which these anomalies are detected in $S$.\footnote{Note, the real-world data we analyze here is noisier and smaller then RPCA is classically applied to.  However, note we observe that RPCA does provide useful insights into the data even in this domain even though we use different $\lambda$ values for rank and anomaly detection.} As one may observe, our method exactly detects  our added anomalies perfectly and, as such, makes the other detected anomalies, by way of their presence in the $S$ matrix, highly suspect and worthy of further investigation.   
 
-In Figure \ref {fig:real_data_anomalie}
+In the right of Figure \ref {fig:real_data}
 %{fig:real_data_rank} 
-we show anomalies in the real data.  Specifically, the columns of Figure \ref {fig:real_data_anomalie} can be translated to indicate that the following features had anomalies: 
+we show anomalies in the real data.  Specifically, the columns of the right side of Figure \ref {fig:real_data} can be translated to indicate that the following features had anomalies: 
 
 \begin{itemize}
 \item 
@@ -908,7 +906,8 @@ Based on the data, these features should be avoided as required metrics.
     \includegraphics[width=1.0\textwidth]{images/new_7-26-2020/real_data.png}
     \label{fig:real_data_anomalie}
 \end{subfigure}
-    \caption{An example of RPCA analysis on real data.  The blue curve corresponds to the singular values computed if PCA only were applied to the data.  The orange curve corresponds to the singular values computed after the RPCA processing.  This example uses a small $\lambda=\frac{0.9}{\sqrt{max(m,n)}}$ to emphasize the low-rank structure. An example of RPCA analysis on real data.   We add anomalies of our own and choose the smallest $\lambda$ that recovers our added anomalies.  The entries in red circles are anomalies in the actual data. This example uses a large $\lambda=\frac{6.0}{\sqrt{max(m,n)}}$ to emphasize anomalies. }
+    \caption{An example of RPCA analysis on real data.  The blue curve corresponds to the singular values computed if PCA only were applied to the data.  The orange curve corresponds to the singular values computed after the RPCA processing.  This example uses a small $\lambda=0.9/\sqrt{max(m,n)}$ to emphasize the low-rank structure. An example of RPCA analysis on real data.   We add anomalies of our own and choose the smallest $\lambda$ that recovers our added anomalies.  The entries in red circles are anomalies in the actual data. This example uses a large $\lambda=6.0/\sqrt{max(m,n)}$ to emphasize anomalies. }
+    \label{fig:real_data}
 \end{figure}
 
 \todo[color=yellow]{LS:  What do we learn from fig 16 in terms of recommended policy?
